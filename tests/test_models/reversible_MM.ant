@@ -1,0 +1,1 @@
+a -> b; (Vm/Km1) * (a - b / Keq) / (1 + a / Km1 + b / Km2)

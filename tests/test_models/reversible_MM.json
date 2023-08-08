@@ -1,0 +1,8 @@
+[
+    {
+        "name": "Reversible Michaelis Menten",
+        "expression": "compartment * (parameter / parameter) * (reactant1 - product1/parameter) / (product1/parameter + reactant1/parameter + 1)",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": ["reactant1", "product1"]
+    }
+]

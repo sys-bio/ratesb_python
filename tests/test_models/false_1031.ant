@@ -1,0 +1,3 @@
+compartment comp1
+a->b; comp1*a*k1
+a+c->b; c*comp1*a

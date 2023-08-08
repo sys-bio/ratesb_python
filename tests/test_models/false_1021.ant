@@ -1,0 +1,4 @@
+species c
+a->b; Vm*a/(km+a)
+a->b; k1*a*c/(km+a)
+a->b; k2*a^3/(k3+a^3)

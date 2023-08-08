@@ -1,0 +1,5 @@
+species c
+a->b; v1*a
+a->b; K1*a-K1*b
+a->b; K1*a*c
+a->b; v1*a*c-k2*b
