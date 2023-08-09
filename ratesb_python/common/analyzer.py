@@ -674,7 +674,6 @@ class Analyzer:
         flag = 0
         if libsbml_kinetics:
             sbo_term = libsbml_kinetics.getSBOTerm()
-            print(sbo_term)
             if sbo_term < 0:
                 flag = 0
             elif classifications[1]:
