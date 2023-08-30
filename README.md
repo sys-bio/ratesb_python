@@ -1,6 +1,6 @@
-# ratesb-python: Rate Law Analysis for SBML and Antimony Models
+# ratesb_python: Rate Law Analysis for SBML and Antimony Models
 
-`ratesb-python` is a Python package designed to analyze the rate laws in an SBML or Antimony model. It provides a user-friendly API to analyze your model and fetch warnings and errors. With `ratesb-python`, you can ensure that your models are robust and accurate.
+`ratesb_python` is a Python package designed to analyze the rate laws in an SBML or Antimony model. It provides a user-friendly API to analyze your model and fetch warnings and errors. With `ratesb_python`, you can ensure that your models are robust and accurate.
 
 ## Features
 
@@ -13,17 +13,17 @@
 
 ## Installation
 
-To install `ratesb-python`, run the following command in your terminal:
+To install `ratesb_python`, run the following command in your terminal:
 
-``pip install ratesb-python``
+``pip install ratesb_python``
 
 
 ## Usage
 
-Here is a quick example of how to use the `ratesb-python` package:
+Here is a quick example of how to use the `ratesb_python` package:
 
 ```python
-from ratesb-python.common.analyzer import Analyzer, Results
+from ratesb_python.common.analyzer import Analyzer, Results
 
 # assuming `model` is your model
 analyzer = Analyzer("path/to/model.xml", "path/to/custom_classifications.json")
@@ -54,7 +54,7 @@ print("Total Warnings: ", warnings)
 
 ## Using Custom Rate Law Classifications
 
-`ratesb-python` allows you to use your own custom rate law classifications to analyze your models. You can do this by creating a JSON file that defines your rate laws.
+`ratesb_python` allows you to use your own custom rate law classifications to analyze your models. You can do this by creating a JSON file that defines your rate laws.
 
 # Rules for Creating Custom Rate Law Classification Files
 The custom rate law classifications in ratesb are defined in a JSON file. This JSON file should be an array of rate law objects, each representing a distinct type of rate law. Each object must have the following keys:
@@ -94,11 +94,11 @@ Here's an example of how to define your rate laws in the JSON file:
 
 ## Contributing
 
-Contributions to `ratesb-python` are welcomed! Whether it's bug reports, feature requests, or new code contributions, we value your feedback and contributions. Please submit a pull request or open an issue on our GitHub page.
+Contributions to `ratesb_python` are welcomed! Whether it's bug reports, feature requests, or new code contributions, we value your feedback and contributions. Please submit a pull request or open an issue on our GitHub page.
 
 ## License
 
-`ratesb-python` is licensed under the MIT license. Please see the LICENSE file for more information.
+`ratesb_python` is licensed under the MIT license. Please see the LICENSE file for more information.
 
 ## Future Works
 
