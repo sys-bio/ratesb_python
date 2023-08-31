@@ -102,7 +102,7 @@ Contributions to `ratesb_python` are welcomed! Whether it's bug reports, feature
 
 ## Future Works
 
-Improve performance of classifying Michaelis-Menten rate laws by switching the algorithm.
+Improve performance of classifying Michaelis-Menten rate laws by switching the algorithm to custom rate law classification
 
 ## Contact
 

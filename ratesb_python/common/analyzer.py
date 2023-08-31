@@ -32,7 +32,7 @@ class Analyzer:
             customized rate law classification.
 
         Examples:
-            import Analyzer from ratesb-python
+            import Analyzer from ratesb_python
             analyzer = Analyzer("path/to/biomodel.xml", "path/to/rate_laws.json")
             analyzer.check_all()
             results = analyzer.results
@@ -44,11 +44,13 @@ class Analyzer:
         xml = ''
         if ext == '.ant' or ext == '.txt':
             ant = util.get_model_str(model_str, False)
+            print(ant)
             load_int = antimony.loadAntimonyString(ant)
             if load_int > 0:
                 xml = antimony.getSBMLString()
             else:
                 raise ValueError("Invalid Antimony model.")
+            print(xml)
         elif ext == '.xml':
             xml = util.get_model_str(model_str, True)
         else:
@@ -57,6 +59,7 @@ class Analyzer:
         document = reader.readSBMLFromString(xml)
         util.checkSBMLDocument(document)
         self.model = document.getModel()
+        print(self.model)
         self.simple = SimpleSBML(self.model)
         self.custom_classifier = None
         self.classification_cp = []
@@ -68,7 +71,7 @@ class Analyzer:
             if len(self.custom_classifier.warning_message) > 0:
                 print(self.custom_classifier.warning_message)
 
-    def check(self, code: Optional[int]=[]):
+    def check(self, code: Optional[int]=None):
         """
         Performs a check based on the provided error or warning code. If no code is provided, 
         all checks are performed.
@@ -76,8 +79,8 @@ class Analyzer:
         Args:
             code (Optional[int]): Code of the check to perform. If None, all checks are performed.
 
-        Prints:
-            The results of the check(s).
+        Updates:
+            The results of the check(s) to self.results.
         """
         if code is None:
             self.check_except([])
@@ -113,8 +116,8 @@ class Analyzer:
         """
         Performs all checks.
         
-        Prints:
-            The results of the check(s).
+        Updates:
+            The results of the check_all to self.results.
         """
         self.check_except()
 
@@ -126,8 +129,8 @@ class Analyzer:
         Args:
             codes (Optional[List[int]]): List of codes of the checks to perform. If None, all checks are performed.
 
-        Prints:
-            The results of the check(s).
+        Updates:
+            The results of the checks to self.results.
         """
         self.classification_cp = []
         self.custom_classifications = []
@@ -212,6 +215,7 @@ class Analyzer:
             "compartment_in_kinetic_law": compartment_in_kinetic_law, "reaction": reaction, "codes": codes}
             
             self._set_kinetics_type(**kwargs)
+            print(codes)
             if 1 in codes:
                 self._check_empty_kinetics(**kwargs)
             if 2 in codes:

@@ -206,7 +206,6 @@ class TestAnalyzer(unittest.TestCase):
         false_case_analyzer = Analyzer("tests/test_models/false_1043.xml")
         true_case_analyzer.check(1043)
         false_case_analyzer.check(1043)
-        print(true_case_analyzer.classification_cp)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1043: Michaelis-Menten kinetics without an explicit enzyme annotation not following recommended SBO terms, we recommend annotations to be subclasses of: SBO_0000028\n")
 
