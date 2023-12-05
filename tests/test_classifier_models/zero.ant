@@ -1,0 +1,19 @@
+compartment comp1
+species e = 1
+k1 = 1
+k2 = 2
+k3 = 3
+k4 = 4
+k5 = 5
+species a = 1, b = 1, c = 1, d = 1
+
+a -> b; k1
+a -> b; k2 + k3
+a -> b; k4 * k5
+a -> b; k1 * k2 + k3 * k4
+a -> b; k1 / k2 + k3 / k4
+a -> b; k1 * e
+a -> b; k1 * e + k2 * e
+// a -> b; k1 * e + k2 / k3 * e
+
+

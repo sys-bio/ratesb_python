@@ -1,2 +1,2 @@
 compartment comp1
-a->b;a*comp1/(k3*k2+a)
+a->b;vmax*a*comp1/(k3*k2+a)

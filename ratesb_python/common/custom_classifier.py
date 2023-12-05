@@ -1,8 +1,11 @@
 from itertools import combinations, chain
 import json
-from ratesb_python.common import util
 
+import sys
 import os
+current_dir = os.path.dirname(__file__)
+sys.path.append(current_dir)
+import util
 import re
 import sympy
 
@@ -168,7 +171,7 @@ class _CustomClassifier:
                 ret.append(replaced_string)
         return ret
 
-    def custom_classify(self, **kwargs):
+    def custom_classify(self, is_default = False, **kwargs):
         """Classify the provided data according to the rate laws defined in the file.
 
         Args:
@@ -184,7 +187,7 @@ class _CustomClassifier:
         """
         reactant_list = kwargs["reactant_list"]
         product_list = kwargs["product_list"]
-        kinetics_sim = kwargs["kinetics_sim"]
+        kinetics = kwargs["kinetics"]
         species_in_kinetic_law = kwargs["species_in_kinetic_law"]
         parameters_in_kinetic_law_only = kwargs["parameters_in_kinetic_law_only"]
         compartment_in_kinetic_law = kwargs["compartment_in_kinetic_law"]
@@ -192,37 +195,37 @@ class _CustomClassifier:
         reactants_in_kinetic_law = [species for species in species_in_kinetic_law if species in reactant_list]
         products_in_kinetic_law = [species for species in species_in_kinetic_law if species in product_list]
 
-        ret = []
+        ret = {}
         enzyme_list = [species for species in species_in_kinetic_law if species not in reactant_list and species not in product_list]
-        replaced_kinetics_list = self.replace_occurrences(reactants_in_kinetic_law, products_in_kinetic_law, enzyme_list, compartment_in_kinetic_law, parameters_in_kinetic_law_only, kinetics_sim)
+        replaced_kinetics_list = self.replace_occurrences(reactants_in_kinetic_law, products_in_kinetic_law, enzyme_list, compartment_in_kinetic_law, parameters_in_kinetic_law_only, kinetics)
+        any_true = False
         for item in self.custom_classifications:
+            if any_true and is_default:
+                ret[item['name']] = False
+                continue
             kinetics_expression = item['expression'].replace("^", "**")
             optional_symbols = item['optional_symbols']
+            all_expr = self.get_all_expr(kinetics_expression, optional_symbols)
             power_limited_species = item['power_limited_species']
             classified_true = False
             for replaced_kinetics in replaced_kinetics_list:
-                replaced_kinetics_simplify = sympy.simplify(replaced_kinetics)
-                all_expr = self.get_all_expr(kinetics_expression, optional_symbols)
-                comparison_result = any(util.check_equal(expr, sympy.sympify(self.lower_powers(replaced_kinetics_simplify, power_limited_species))) for expr in all_expr)
+                replaced_kinetics_sympify = self.lower_powers(sympy.sympify(replaced_kinetics), power_limited_species)
+                replaced_kinetics_sympify = self.remove_constant_multiplier(replaced_kinetics_sympify)
+                comparison_result = any(util.check_equal(sympy.simplify(expr), replaced_kinetics_sympify) for expr in all_expr)
                 if comparison_result:
-                    ret.append({
-                        'name': item['name'],
-                        'comparison_result': True
-                    })
+                    ret[item['name']] = True
                     classified_true = True
+                    any_true = True
                     break
             if not classified_true:
-                ret.append({
-                    'name': item['name'],
-                    'comparison_result': False
-                })
+                ret[item['name']] = False
         return ret
 
     def lower_powers(self, expr, keep=[]):
         """Lowers the power of certain elements in the expression.
 
         Args:
-            expr (str): The expression from which to lower powers.
+            expr (sympy.Expr): The expression from which to lower powers.
             keep (list): A list of elements whose power is to be kept as is.
 
         Returns:
@@ -238,11 +241,28 @@ class _CustomClassifier:
             Returns:
                 sympy.Expr: The base if conditions are met, otherwise returns the expression as is.
             """
-            if exp.is_integer and exp > 1 and base.is_symbol and base not in keep:
+            if exp.is_integer and exp > 1 and base.is_symbol and str(base) not in keep:
                 return base
             else:
                 return sympy.Pow(base, exp)
         return expr.replace(sympy.Pow, replace_if_applicable)
+    
+    def remove_constant_multiplier(self, expr):
+        # Split the expression into terms
+        expanded_expr = sympy.expand(expr)
+        terms = expanded_expr.as_ordered_terms()
+
+        # Process each term to remove constant multipliers while preserving signs
+        new_terms = []
+        for term in terms:
+            # Extract coefficient and rest of the term
+            coeff, rest = term.as_coeff_Mul()
+            # Preserve sign and remove the multiplier
+            new_term = sympy.sign(coeff) * rest
+            new_terms.append(new_term)
+
+        # Combine the processed terms back into an expression
+        return sympy.Add(*new_terms)
 
     def get_all_expr(self, expr, optional_symbols):
         """Generates all possible expressions by replacing the optional symbols with 1.
@@ -256,10 +276,30 @@ class _CustomClassifier:
         """
         all_combinations = list(chain(*map(lambda x: combinations(optional_symbols, x), range(0, len(optional_symbols)+1))))
         all_expr = []
+        all_expr.append(expr)
+        def generate_combinations(parts, index, current, add_expr):
+            if index == len(parts) - 1:
+                add_expr.append(current + parts[index])
+                return
+
+            # Add part with the symbol
+            generate_combinations(parts, index + 1, current + parts[index] + sym, add_expr)
+            
+            # Add part with '1' replacing the symbol
+            generate_combinations(parts, index + 1, current + parts[index] + "1", add_expr)
         for combo in all_combinations:
-            temp_expr = expr
+            temp_exprs = []
+            temp_exprs.append(expr)
             for sym in optional_symbols:
                 if sym not in combo:
-                    temp_expr = temp_expr.replace(sym, "1")
-            all_expr.append(sympy.simplify(temp_expr))
-        return all_expr
+                    if expr.count(sym) > 1:
+                        new_temp_exprs = []
+                        for i in range(len(temp_exprs)):
+                            parts = temp_exprs[i].split(sym)
+                            generate_combinations(parts, 0, "", new_temp_exprs)
+                        temp_exprs = new_temp_exprs
+                    else:
+                        for i in range(len(temp_exprs)):
+                            temp_exprs[i] = temp_exprs[i].replace(sym, "1")
+                all_expr.extend(temp_exprs)
+        return list(set(all_expr))

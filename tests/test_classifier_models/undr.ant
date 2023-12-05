@@ -1,0 +1,18 @@
+species e = 1
+compartment comp1 = 1
+k1 = 1
+k2 = 2
+k3 = 3
+k4 = 4
+k5 = 5
+species a = 1, b = 1, c = 1, d = 1
+a -> b; k1 * a
+a + b -> c; k2 * a * b
+a + b + c -> d; k3 * a * b * c
+a -> b; comp1 * k1 * a
+a + b -> c; comp1 * k2 * a * b
+a + b + c -> d; comp1 * k3 * a * b * c
+a -> b; comp1 * k1 * k2 * k3 * (k4 + k5) * a
+a-> b; comp1 * k1 * a + comp1 * k2 * a
+# this is a valid undr, but user intends to write Michaelis-Menten
+a -> b; k1 * a / (k2  + k2)

@@ -1,4 +1,4 @@
 compartment comp1
-a -> b; k1 * a * a * b
+var Km1
 
-a -> b; (Vm/Km1) * (a - b / Keq) / (1 + a / Km1 + b / Km2)
+a -> b; comp1*(Vm/Km1) * (a - b / Keq) / (1 + a / Km1 + b / Km2)

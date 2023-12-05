@@ -1,0 +1,19 @@
+species e = 1
+compartment comp1 = 1
+k1 = 1
+k2 = 2
+k3 = 3
+k4 = 4
+k5 = 5
+species a = 1, b = 1, c = 1, d = 1
+a -> b; k1 * e * a - k2 * e * b
+a -> b; k1 * e * a - k2 * b
+a -> b; k1 * a - k2 * e * b
+a + b -> c; k2 * e * a * b - k3 * e * c
+a + b -> c; k2 * e * a * b - k3 * c
+a + b -> c; k2 * a * b - k3 * e * c
+a -> b; comp1 * k1 * e * a - comp1 * k2 * e * b
+a -> b; comp1 * k1 * e * a - comp1 * k2 * b
+a -> b; comp1 * k1 * a - comp1 * k2 * e * b
+a -> b; comp1 * k1 * k2 * k3 * (k4 + k5) * e * a - comp1 * k2 * k3 * k4 * k5 * e * b
+a-> b; comp1 * k1 * a * e + comp1 * k2 * a * e - comp1 * k3 * b

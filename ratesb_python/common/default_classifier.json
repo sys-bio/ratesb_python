@@ -1,0 +1,134 @@
+[
+    {
+        "name": "ZERO",
+        "expression": "compartment * parameter * enzyme",
+        "optional_symbols": ["compartment", "parameter", "enzyme"],
+        "power_limited_species": ["enzyme"]
+    },
+    {
+        "name": "UNDR1",
+        "expression": "compartment * parameter * reactant1",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": []
+    },
+    {
+        "name": "UNDR2",
+        "expression": "compartment * parameter * reactant1 * reactant2",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": []
+    },
+    {
+        "name": "UNDR3",
+        "expression": "compartment * parameter * reactant1 * reactant2 * reactant3",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": []
+    },
+    {
+        "name": "UNDR-A1",
+        "expression": "compartment * parameter * enzyme * reactant1",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": ["enzyme"]
+    },
+    {
+        "name": "UNDR-A2",
+        "expression": "compartment * parameter * enzyme * reactant1 * reactant2",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": ["enzyme"]
+    },
+    {
+        "name": "UNDR-A3",
+        "expression": "compartment * parameter * enzyme * reactant1 * reactant2 * reactant3",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": ["enzyme"]
+    },
+    {
+        "name": "BIDR11",
+        "expression": "compartment * (parameter * reactant1 - parameter * product1)",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": []
+    },
+    {
+        "name": "BIDR12",
+        "expression": "compartment * (parameter * reactant1 - parameter * product1 * product2)",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": []
+    },
+    {
+        "name": "BIDR21",
+        "expression": "compartment * (parameter * reactant1 * reactant2 - parameter * product1)",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": []
+    },
+    {
+        "name": "BIDR22",
+        "expression": "compartment * (parameter * reactant1 * reactant2 - parameter * product1 * product2)",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": []
+    },
+    {
+        "name": "BIDR-A11",
+        "expression": "compartment * (parameter * enzyme * reactant1 - parameter * enzyme * product1)",
+        "optional_symbols": ["compartment", "parameter", "enzyme"],
+        "power_limited_species": ["enzyme"]
+    },
+    {
+        "name": "BIDR-A12",
+        "expression": "compartment * (parameter * enzyme * reactant1 - parameter * enzyme * product1 * product2)",
+        "optional_symbols": ["compartment", "parameter", "enzyme"],
+        "power_limited_species": ["enzyme"]
+    },
+    {
+        "name": "BIDR-A21",
+        "expression": "compartment * (parameter * enzyme * reactant1 * reactant2 - parameter * enzyme * product1)",
+        "optional_symbols": ["compartment", "parameter", "enzyme"],
+        "power_limited_species": ["enzyme"]
+    },
+    {
+        "name": "BIDR-A22",
+        "expression": "compartment * (parameter * enzyme * reactant1 * reactant2 - parameter * enzyme * product1 * product2)",
+        "optional_symbols": ["compartment", "parameter", "enzyme"],
+        "power_limited_species": ["enzyme"]
+    },
+    {
+        "name": "MM",
+        "expression": "compartment * parameter * reactant1 / (reactant1 + parameter)",
+        "optional_symbols": ["compartment"],
+        "power_limited_species": ["reactant1"]
+    },
+    {
+        "name": "MMcat",
+        "expression": "compartment * parameter * enzyme * reactant1 / (reactant1 + parameter)",
+        "optional_symbols": ["compartment"],
+        "power_limited_species": ["reactant1"]
+    },
+    {
+        "name": "AMM",
+        "expression": "compartment * parameter * reactant1 / (reactant1 * (1 + enzyme / parameter) + parameter)",
+        "optional_symbols": ["compartment"],
+        "power_limited_species": ["reactant1"]
+    },
+    {
+        "name": "IMM",
+        "expression": "compartment * parameter * reactant1 / (reactant1 + parameter * (1 + enzyme / parameter))",
+        "optional_symbols": ["compartment"],
+        "power_limited_species": ["reactant1"]
+    },
+    {
+        "name": "RMM",
+        "expression": "compartment * (parameter / parameter) * (reactant1 - product1 / parameter) / (product1/parameter + reactant1/parameter + 1)",
+        "optional_symbols": ["compartment"],
+        "power_limited_species": ["reactant1", "product1"]
+    },
+    {
+        "name": "RMMcat",
+        "expression": "compartment * enzyme * (parameter * reactant1 / parameter - parameter * product1 / parameter) / ((product1/parameter + reactant1/parameter) * (parameter + enzyme) + 1)",
+        "optional_symbols": ["compartment"],
+        "power_limited_species": ["reactant1", "product1"]
+    },
+    {
+        "name": "Hill",
+        "expression": "compartment * parameter * reactant1 / (reactant1 + parameter)",
+        "optional_symbols": ["compartment"],
+        "power_limited_species": []
+    }
+]

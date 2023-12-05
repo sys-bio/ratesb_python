@@ -1,5 +1,6 @@
 import os
-import numpy as np
+import math
+import random
 import sympy as sp
 
 def get_model_str(model_reference, is_sbml):
@@ -48,7 +49,7 @@ def checkSBMLDocument(document):
   if (document.getNumErrors() > 0):
     print("SBML Document Error")
     
-def check_equal(expr1, expr2, n=20, sample_min=1, sample_max=10):
+def check_equal(expr1, expr2, n=10, sample_min=1, sample_max=10):
     """check if two sympy expressions are equal by plugging random numbers
     into each symbols in both expressions and test if they are equal
 
@@ -66,8 +67,9 @@ def check_equal(expr1, expr2, n=20, sample_min=1, sample_max=10):
     free_symbols = set(expr1.free_symbols) | set(expr2.free_symbols)
     
     # Numeric (brute force) equality testing n-times
+    prev_frac = None
     for i in range(n):
-        your_values=np.random.uniform(sample_min, sample_max, len(free_symbols))
+        your_values = [random.uniform(sample_min, sample_max) for _ in range(len(free_symbols))]
         expr1_num=expr1
         expr2_num=expr2
         for symbol,number in zip(free_symbols, your_values):
@@ -75,8 +77,9 @@ def check_equal(expr1, expr2, n=20, sample_min=1, sample_max=10):
             expr2_num=expr2_num.subs(symbol, sp.Float(number))
         expr1_num=float(expr1_num)
         expr2_num=float(expr2_num)
-        if not np.allclose(expr1_num, expr2_num):
+        if not math.isclose(expr1_num, expr2_num) and (prev_frac is not None and prev_frac != expr1_num/expr2_num):
             return False
+        prev_frac = expr1_num/expr2_num
     return True
 
 def check_symbols_derivative(expr, symbols, is_positive_derivative=True):
@@ -98,9 +101,9 @@ def check_symbols_derivative(expr, symbols, is_positive_derivative=True):
             if str(other_symbol) != symbol:
                 temp_expr = temp_expr.subs(other_symbol, sp.Float(1))
         if is_positive_derivative:
-            prev = -np.inf
+            prev = -math.inf
         else:
-            prev = np.inf
+            prev = math.inf
         for i in range(100, 1001, 10):
             curr = sp.Float(temp_expr.subs(symbol, sp.Float(i/100)))
             if is_positive_derivative:

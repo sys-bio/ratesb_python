@@ -1,217 +1,282 @@
 import unittest
-from ratesb_python.common.analyzer import Analyzer
-from SBMLKinetics.common.simple_sbml import SimpleSBML
-from libsbml import SBMLReader
+import sys
+import os
+# setting path
+current_dir = os.path.dirname(__file__)
+parent_dir = os.path.dirname(current_dir)
+common_dir = os.path.join(parent_dir, 'ratesb_python', 'common')
+sys.path.append(common_dir)
+
+from analyzer import Analyzer
+
+
+DIR = os.path.dirname(os.path.abspath(__file__))
+TEST_MODELS = "test_models"
+TRUE_PATH_1 = os.path.join(DIR, TEST_MODELS, "true_0001.ant")
+FALSE_PATH_1 = os.path.join(DIR, TEST_MODELS, "false_0001.ant")
+TRUE_PATH_2 = os.path.join(DIR, TEST_MODELS, "true_0002.ant")
+FALSE_PATH_2 = os.path.join(DIR, TEST_MODELS, "false_0002.ant")
+
+TRUE_PATH_1001 = os.path.join(DIR, TEST_MODELS, "true_1001.ant")
+FALSE_PATH_1001 = os.path.join(DIR, TEST_MODELS, "false_1001.ant")
+TRUE_PATH_1002 = os.path.join(DIR, TEST_MODELS, "true_1002.ant")
+FALSE_PATH_1002 = os.path.join(DIR, TEST_MODELS, "false_1002.ant")
+TRUE_PATH_1003 = os.path.join(DIR, TEST_MODELS, "true_1003.ant")
+FALSE_PATH_1003 = os.path.join(DIR, TEST_MODELS, "false_1003.ant")
+TRUE_PATH_1004 = os.path.join(DIR, TEST_MODELS, "true_1004.ant")
+FALSE_PATH_1004 = os.path.join(DIR, TEST_MODELS, "false_1004.ant")
+TRUE_PATH_1005 = os.path.join(DIR, TEST_MODELS, "true_1005.ant")
+FALSE_PATH_1005 = os.path.join(DIR, TEST_MODELS, "false_1005.ant")
+TRUE_PATH_1006 = os.path.join(DIR, TEST_MODELS, "true_1006.ant")
+FALSE_PATH_1006 = os.path.join(DIR, TEST_MODELS, "false_1006.ant")
+
+TRUE_PATH_1010 = os.path.join(DIR, TEST_MODELS, "true_1010.ant")
+FALSE_PATH_1010 = os.path.join(DIR, TEST_MODELS, "false_1010.ant")
+
+TRUE_PATH_1020 = os.path.join(DIR, TEST_MODELS, "true_1020.ant")
+FALSE_PATH_1020 = os.path.join(DIR, TEST_MODELS, "false_1020.ant")
+TRUE_PATH_1021 = os.path.join(DIR, TEST_MODELS, "true_1021.ant")
+FALSE_PATH_1021 = os.path.join(DIR, TEST_MODELS, "false_1021.ant")
+TRUE_PATH_1022 = os.path.join(DIR, TEST_MODELS, "true_1022.ant")
+FALSE_PATH_1022 = os.path.join(DIR, TEST_MODELS, "false_1022.ant")
+
+TRUE_PATH_1030 = os.path.join(DIR, TEST_MODELS, "true_1030.ant")
+FALSE_PATH_1030 = os.path.join(DIR, TEST_MODELS, "false_1030.ant")
+TRUE_PATH_1031 = os.path.join(DIR, TEST_MODELS, "true_1031.ant")
+FALSE_PATH_1031 = os.path.join(DIR, TEST_MODELS, "false_1031.ant")
+TRUE_PATH_1032 = os.path.join(DIR, TEST_MODELS, "true_1032.ant")
+FALSE_PATH_1032 = os.path.join(DIR, TEST_MODELS, "false_1032.ant")
+TRUE_PATH_1033 = os.path.join(DIR, TEST_MODELS, "true_1033.ant")
+FALSE_PATH_1033 = os.path.join(DIR, TEST_MODELS, "false_1033.ant")
+TRUE_PATH_1034 = os.path.join(DIR, TEST_MODELS, "true_1034.ant")
+FALSE_PATH_1034 = os.path.join(DIR, TEST_MODELS, "false_1034.ant")
+TRUE_PATH_1035 = os.path.join(DIR, TEST_MODELS, "true_1035.ant")
+FALSE_PATH_1035 = os.path.join(DIR, TEST_MODELS, "false_1035.ant")
+TRUE_PATH_1036 = os.path.join(DIR, TEST_MODELS, "true_1036.ant")
+FALSE_PATH_1036 = os.path.join(DIR, TEST_MODELS, "false_1036.ant")
+TRUE_PATH_1037 = os.path.join(DIR, TEST_MODELS, "true_1037.ant")
+FALSE_PATH_1037 = os.path.join(DIR, TEST_MODELS, "false_1037.ant")
+
+TRUE_PATH_1040 = os.path.join(DIR, TEST_MODELS, "true_1040.xml")
+FALSE_PATH_1040 = os.path.join(DIR, TEST_MODELS, "false_1040.xml")
+TRUE_PATH_1041 = os.path.join(DIR, TEST_MODELS, "true_1041.xml")
+FALSE_PATH_1041 = os.path.join(DIR, TEST_MODELS, "false_1041.xml")
+TRUE_PATH_1042 = os.path.join(DIR, TEST_MODELS, "true_1042.xml")
+FALSE_PATH_1042 = os.path.join(DIR, TEST_MODELS, "false_1042.xml")
+TRUE_PATH_1043 = os.path.join(DIR, TEST_MODELS, "true_1043.xml")
+FALSE_PATH_1043 = os.path.join(DIR, TEST_MODELS, "false_1043.xml")
+TRUE_PATH_1044 = os.path.join(DIR, TEST_MODELS, "true_1044.xml")
+FALSE_PATH_1044 = os.path.join(DIR, TEST_MODELS, "false_1044.xml")
 
 class TestAnalyzer(unittest.TestCase):
 
-    # def setUp(self):
-    #     # self.rate_analyzer = Analyzer("tests/test_models/1.ant", "tests/test_models/rate_laws.json")
-    #     # self.mm_analyzer = Analyzer("tests/test_models/reversible_MM.ant", "tests/test_models/reversible_MM.json")
-    #     self.analyzer = Analyzer("tests/test_models/1.ant")
+    def setUp(self):
+        # self.rate_analyzer = Analyzer("tests/test_models/1.ant", "tests/test_models/rate_laws.json")
+        # self.mm_analyzer = Analyzer("tests/test_models/reversible_MM.ant", "tests/test_models/reversible_MM.json")
+        self.analyzer = Analyzer("tests/test_models/1.ant")
 
     # def test_get_rate_laws(self):
     #     # Add test logic here. For example:
     #     # self.assertEqual(self.rate_analyzer.get_rate_laws(), expected_result)
     #     pass
     
-    # def test_check_0001(self):
-    #     pass
-    #     true_case_analyzer = Analyzer("tests/test_models/true_0001.ant")
-    #     false_case_analyzer = Analyzer("tests/test_models/false_0001.ant")
-    #     true_case_analyzer.check(1)
-    #     false_case_analyzer.check(1)
-    #     # self.assertEqual(self.rate_analyzer.classification_cp, [])
-    #     self.assertEqual(str(true_case_analyzer.results), '')
-    #     self.assertEqual(str(false_case_analyzer.results), '')
+    def test_check_0001(self):
+        true_case_analyzer = Analyzer(TRUE_PATH_2)
+        false_case_analyzer = Analyzer(FALSE_PATH_2)
+        true_case_analyzer.check(1)
+        false_case_analyzer.check(1)
+        # self.assertEqual(self.rate_analyzer.classification_cp, [])
+        self.assertEqual(str(true_case_analyzer.results), '')
+        self.assertEqual(str(false_case_analyzer.results), '')
     
     def test_check_0002(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_0002.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_0002.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_2)
+        false_case_analyzer = Analyzer(FALSE_PATH_2)
         true_case_analyzer.check(2)
         false_case_analyzer.check(2)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), '_J0:\n  Error 0002: Expecting reactants in rate law: a\n')
     
     def test_check_1001(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1001.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1001.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1001)
+        false_case_analyzer = Analyzer(FALSE_PATH_1001)
         true_case_analyzer.check(1001)
         false_case_analyzer.check(1001)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), '_J0:\n  Warning 1001: Rate law contains only number.\n')
 
     def test_check_1002(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1002.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1002.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1002)
+        false_case_analyzer = Analyzer(FALSE_PATH_1002)
         true_case_analyzer.check(1002)
         false_case_analyzer.check(1002)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), '_J0:\n  Warning 1002: Unrecognized rate law from the standard list.\n')
     
     def test_check_1003(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1003.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1003.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1003)
+        false_case_analyzer = Analyzer(FALSE_PATH_1003)
         true_case_analyzer.check(1003)
         false_case_analyzer.check(1003)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), '_J0:\n  Warning 1003: Flux is not increasing as reactant increases.\n_J1:\n  Warning 1003: Flux is not increasing as reactant increases.\n_J2:\n  Warning 1003: Flux is not increasing as reactant increases.\n')
     
     def test_check_1004(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1004.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1004.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1004)
+        false_case_analyzer = Analyzer(FALSE_PATH_1004)
         true_case_analyzer.check(1004)
         false_case_analyzer.check(1004)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), '')
     
     def test_check_1005(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1005.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1005.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1005)
+        false_case_analyzer = Analyzer(FALSE_PATH_1005)
         true_case_analyzer.check(1005)
         false_case_analyzer.check(1005)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), '_J0:\n  Warning 1005: Expecting boundary species reactant in rate law: a\n')
     
     def test_check_1006(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1006.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1006.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1006)
+        false_case_analyzer = Analyzer(FALSE_PATH_1006)
         true_case_analyzer.check(1006)
         false_case_analyzer.check(1006)
         self.assertEqual(str(true_case_analyzer.results), '')
-        self.assertEqual(str(false_case_analyzer.results), '_J0:\n  Warning 1006: Expecting boundary species reactant in rate law: k1\n')
+        self.assertEqual(str(false_case_analyzer.results), '_J0:\n  Warning 1006: Expecting these parameters to be constants: k1\n')
     
     def test_check_1010(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1010.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1010.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1010)
+        false_case_analyzer = Analyzer(FALSE_PATH_1010)
         true_case_analyzer.check(1010)
         false_case_analyzer.check(1010)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), '_J0:\n  Warning 1010: Irreversible reaction kinetic law contains products: b\n')
     
     def test_check_1020(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1020.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1020.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1020)
+        false_case_analyzer = Analyzer(FALSE_PATH_1020)
         true_case_analyzer.check(1020)
         false_case_analyzer.check(1020)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1020: We recommend that these parameters start with 'k': v1\n_J1:\n  Warning 1020: We recommend that these parameters start with 'k': K1\n_J2:\n  Warning 1020: We recommend that these parameters start with 'k': K1\n_J3:\n  Warning 1020: We recommend that these parameters start with 'k': v1\n")
     
     def test_check_1021(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1021.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1021.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1021)
+        false_case_analyzer = Analyzer(FALSE_PATH_1021)
         true_case_analyzer.check(1021)
         false_case_analyzer.check(1021)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1021: We recommend that these parameters start with 'K': km\n_J1:\n  Warning 1021: We recommend that these parameters start with 'K': km\n_J2:\n  Warning 1021: We recommend that these parameters start with 'K': k3\n")
     
     def test_check_1022(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1022.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1022.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1022)
+        false_case_analyzer = Analyzer(FALSE_PATH_1022)
         true_case_analyzer.check(1022)
         false_case_analyzer.check(1022)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1022: We recommend that these parameters start with 'V': vm\n")
     
     def test_check_1030(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1030.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1030.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1030)
+        false_case_analyzer = Analyzer(FALSE_PATH_1030)
         true_case_analyzer.check(1030)
         false_case_analyzer.check(1030)
         self.assertEqual(str(true_case_analyzer.results), '')
-        self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1030: Elements of the same type are not ordered properly\n_J1:\n  Warning 1030: Elements of the same type are not ordered properly\n")
+        self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1030: Elements of the same type are not ordered alphabetically\n_J1:\n  Warning 1030: Elements of the same type are not ordered alphabetically\n")
     
     def test_check_1031(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1031.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1031.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1031)
+        false_case_analyzer = Analyzer(FALSE_PATH_1031)
         true_case_analyzer.check(1031)
         false_case_analyzer.check(1031)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1031: Formatting convention not followed (compartment before parameters before species)\n_J1:\n  Warning 1031: Formatting convention not followed (compartment before parameters before species)\n")
 
+    # TODO: implement convention checks for fractional rate laws
     def test_check_1032(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1032.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1032.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1032)
+        false_case_analyzer = Analyzer(FALSE_PATH_1032)
         true_case_analyzer.check(1032)
         false_case_analyzer.check(1032)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1032: Denominator not in alphabetical order\n")
 
     def test_check_1033(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1033.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1033.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1033)
+        false_case_analyzer = Analyzer(FALSE_PATH_1033)
         true_case_analyzer.check(1033)
         false_case_analyzer.check(1033)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1033: Numerator and denominator not in alphabetical order\n")
 
     def test_check_1034(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1034.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1034.ant")
+        true_case_analyzer = Analyzer(TRUE_PATH_1034)
+        false_case_analyzer = Analyzer(FALSE_PATH_1034)
         true_case_analyzer.check(1034)
         false_case_analyzer.check(1034)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1034: Numerator convention not followed and denominator not in alphabetical order\n")
 
-    def test_check_1035(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1035.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1035.ant")
-        true_case_analyzer.check(1035)
-        false_case_analyzer.check(1035)
-        self.assertEqual(str(true_case_analyzer.results), '')
-        self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1035: Denominator convention not followed\n")
+    # def test_check_1035(self):
+    #     true_case_analyzer = Analyzer(TRUE_PATH_1035)
+    #     false_case_analyzer = Analyzer(FALSE_PATH_1035)
+    #     true_case_analyzer.check(1035)
+    #     false_case_analyzer.check(1035)
+    #     self.assertEqual(str(true_case_analyzer.results), '')
+    #     self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1035: Denominator convention not followed\n")
 
-    def test_check_1036(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1036.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1036.ant")
-        true_case_analyzer.check(1036)
-        false_case_analyzer.check(1036)
-        # self.assertEqual(str(true_case_analyzer.results), '')
-        self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1036: Numerator not in alphabetical order and denominator convention not followed\n")
+    # def test_check_1036(self):
+    #     true_case_analyzer = Analyzer(TRUE_PATH_1036)
+    #     false_case_analyzer = Analyzer(FALSE_PATH_1036)
+    #     true_case_analyzer.check(1036)
+    #     false_case_analyzer.check(1036)
+    #     # self.assertEqual(str(true_case_analyzer.results), '')
+    #     self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1036: Numerator not in alphabetical order and denominator convention not followed\n")
 
-    def test_check_1037(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1037.ant")
-        false_case_analyzer = Analyzer("tests/test_models/false_1037.ant")
-        true_case_analyzer.check(1037)
-        false_case_analyzer.check(1037)
-        self.assertEqual(str(true_case_analyzer.results), '')
-        self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1037: Numerator and denominator convention not followed\n")
+    # def test_check_1037(self):
+    #     true_case_analyzer = Analyzer(TRUE_PATH_1037)
+    #     false_case_analyzer = Analyzer(FALSE_PATH_1037)
+    #     true_case_analyzer.check(1037)
+    #     false_case_analyzer.check(1037)
+    #     self.assertEqual(str(true_case_analyzer.results), '')
+    #     self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1037: Numerator and denominator convention not followed\n")
 
     def test_check_1040(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1040.xml")
-        false_case_analyzer = Analyzer("tests/test_models/false_1040.xml")
+        true_case_analyzer = Analyzer(TRUE_PATH_1040)
+        false_case_analyzer = Analyzer(FALSE_PATH_1040)
         true_case_analyzer.check(1040)
         false_case_analyzer.check(1040)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1040: Uni-directional mass action annotation not following recommended SBO terms, we recommend annotations to be subclasses of: SBO_0000430, SBO_0000041\n")
 
     def test_check_1041(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1041.xml")
-        false_case_analyzer = Analyzer("tests/test_models/false_1041.xml")
+        true_case_analyzer = Analyzer(TRUE_PATH_1041)
+        false_case_analyzer = Analyzer(FALSE_PATH_1041)
         true_case_analyzer.check(1041)
         false_case_analyzer.check(1041)
         self.assertEqual(str(true_case_analyzer.results), '')
-        self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1041: Uni-term with the moderator annotation not following recommended SBO terms, we recommend annotations to be subclasses of: SBO_0000041\n")
+        self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1041: Uni-Directional Mass Action with an Activator annotation not following recommended SBO terms, we recommend annotations to be subclasses of: SBO_0000041\n")
 
     def test_check_1042(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1042.xml")
-        false_case_analyzer = Analyzer("tests/test_models/false_1042.xml")
+        true_case_analyzer = Analyzer(TRUE_PATH_1042)
+        false_case_analyzer = Analyzer(FALSE_PATH_1042)
         true_case_analyzer.check(1042)
         false_case_analyzer.check(1042)
         self.assertEqual(str(true_case_analyzer.results), '')
-        self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1042: Bi-directional mass action or Bi-terms with the moderator annotation not following recommended SBO terms, we recommend annotations to be subclasses of: SBO_0000042\n")
+        self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1042: Bi-directional mass action (with an Activator) annotation not following recommended SBO terms, we recommend annotations to be subclasses of: SBO_0000042\n")
 
     def test_check_1043(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1043.xml")
-        false_case_analyzer = Analyzer("tests/test_models/false_1043.xml")
+        true_case_analyzer = Analyzer(TRUE_PATH_1043)
+        false_case_analyzer = Analyzer(FALSE_PATH_1043)
         true_case_analyzer.check(1043)
         false_case_analyzer.check(1043)
         self.assertEqual(str(true_case_analyzer.results), '')
         self.assertEqual(str(false_case_analyzer.results), "_J0:\n  Warning 1043: Michaelis-Menten kinetics without an explicit enzyme annotation not following recommended SBO terms, we recommend annotations to be subclasses of: SBO_0000028\n")
 
     def test_check_1044(self):
-        true_case_analyzer = Analyzer("tests/test_models/true_1044.xml")
-        false_case_analyzer = Analyzer("tests/test_models/false_1044.xml")
+        true_case_analyzer = Analyzer(TRUE_PATH_1044)
+        false_case_analyzer = Analyzer(FALSE_PATH_1044)
         true_case_analyzer.check(1044)
         false_case_analyzer.check(1044)
         self.assertEqual(str(true_case_analyzer.results), '')

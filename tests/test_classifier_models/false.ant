@@ -1,0 +1,33 @@
+# this file tests the false cases of the rate law checker
+# all the rate laws listed here are not detected in the default classifier
+species e = 1
+compartment comp1 = 1
+k1 = 1
+k2 = 2
+k3 = 3
+k4 = 4
+species a = 1, b = 1, c = 1, d = 1
+# ZERO
+a -> b; k1 * e * e
+
+# currently we do not check stoichiometry so this is not detected
+// a -> b; k1 * a * a
+// a + b -> c; k2 * a * b * a
+// a + b + c -> d; k3 * a * b * c * a
+
+# UNDR
+a -> b; k1 * a * e * e
+a + b -> c; k1 * a * b * e * e
+a + b + c -> d; k3 * a * b * c * e * e
+
+# BIDR
+a -> b; k1 * e * e * a - k2 * e * b
+a + b -> c; k1 * e * e * a * b - k2 * e * c
+a -> b + c; k1 * e * e * a - k2 * e * b * c
+// a + b -> c + d; k1 * e * e * a * b - k2 * e * c * d
+// a + b -> c + d; comp1 * k2 * e * a * b - comp1 * k3 * e * c - comp1 * k4 * e * d
+// a + b -> c + d; comp1 * k2 * a * b * e - comp1 * k3 * c * e - comp1 * k4 * d * e
+// a + b -> c + d; comp1 * k2 * a * b * e * e - comp1 * k3 * c * e * e - comp1 * k4 * d * e * e
+
+# MM
+// a -> b; k1 * a / (k2 + k2)

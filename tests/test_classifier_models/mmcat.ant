@@ -1,0 +1,13 @@
+species e = 1
+compartment comp1 = 1
+Vmax = 1
+Km1 = 1
+Km2 = 1
+Vmax1 = 1
+Vmax2 = 1
+species a = 1, b = 1, c = 1, d = 1
+a -> b; Vmax*e*a/(Km1 + a)
+a -> b; (Vmax1 + Vmax2)*e*a/(Km1 + a)
+// a -> b; Vmax1*a/(Km1 + Km2 + a)
+a -> b; comp1 * Vmax*e*a/(Km1 + a)
+a -> b; comp1 *e* (Vmax1 + Vmax2)*a/(Km1 + a)
