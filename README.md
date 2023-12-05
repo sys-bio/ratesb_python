@@ -161,6 +161,10 @@ Contributions to `ratesb_python` are welcomed! Whether it's bug reports, feature
 - Implement stoichiometry checks for mass actions.
 - Perform checks after default classification to optimize performance.
 
+## Known bugs
+
+- checks with no argument does not work properly
+
 ## Contact
 
 For additional queries, please contact Longxuan Fan at longxuan@usc.edu.
