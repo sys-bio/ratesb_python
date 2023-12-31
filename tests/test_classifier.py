@@ -25,6 +25,7 @@ sys.path.append(common_dir)
 
 # from ratesb_python.common.custom_classifier import _CustomClassifier
 from analyzer import Analyzer
+from custom_classifier import _CustomClassifier
 
 DIR = os.path.dirname(os.path.realpath(__file__))
 UPPER_DIR = os.path.dirname(DIR)
@@ -32,6 +33,7 @@ DEFAULT_CLASSIFIER_PATH = os.path.join(UPPER_DIR, "ratesb_python", "common", "de
 
 TEST_CLASSIFIER_MODELS = "test_classifier_models"
 ZERO_PATH = os.path.join(DIR, TEST_CLASSIFIER_MODELS, "zero.ant")
+JSON_WARNING_PATH = os.path.join(DIR, TEST_CLASSIFIER_MODELS, "validation_problems.json")
 
 # DEFAULT_CLASSIFIER = _CustomClassifier(DEFAULT_CLASSIFIER_PATH)
 
@@ -59,16 +61,27 @@ RMM_CAT = "RMMcat"
 HILL = "Hill"
 
 class TestClassifier(unittest.TestCase):
+    def test_invalid_json_path(self):
+        with self.assertRaises(ValueError) as context:
+            Analyzer(ZERO_PATH, "invalid_path")
+        self.assertEqual(str(context.exception), "Invalid file format, accepting .json")
+    
+    def test_json_warnings(self):
+        self.maxDiff = None
+        classifier = _CustomClassifier(JSON_WARNING_PATH)
+        self.assertEqual(classifier.warning_message, 
+                        """Some items in your JSON file were invalid and have been removed.\nDetails:\nRate law incomplete does not follow the correct structure.\nItem at index 1 does not follow the correct structure.\nRate law invalid expression has an invalid expression.\nRate law invalid optional symbols (not a list) does not follow the correct structure.\noptional_symbols in rate law invalid optional symbols (not a list of strings) should be a list of strings.\nInvalid item in optional_symbols in rate law invalid optional symbols (invalid names), should only contain compartment, parameter, reactant1, reactant2, reactant3, product1, product2, product3, enzyme.\nRate law invalid power limited species (not a list) does not follow the correct structure.\npower_limited_species in rate law invalid power limited species (not a list of strings) should be a list of strings.\nInvalid item in power_limited_species in rate law invalid power limited species (invalid names), should only contain reactant1, reactant2, reactant3, product1, product2, product3, enzyme.""")
+        
     def test_false(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "false.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             for k, v in val.items():
                 self.assertFalse(v)
 
     def test_zero(self):
         analyzer = Analyzer(ZERO_PATH)
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[ZERO])
             # assert all other values are false
@@ -78,7 +91,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_undr(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "undr.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[UNDR1] or val[UNDR2] or val[UNDR3])
             for k, v in val.items():
@@ -87,7 +100,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_undr_a(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "undr_a.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[UNDR_A1] or val[UNDR_A2] or val[UNDR_A3])
             for k, v in val.items():
@@ -96,7 +109,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_bidr(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "bidr.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[BIDR11] or val[BIDR12] or val[BIDR21] or val[BIDR22])
             for k, v in val.items():
@@ -105,7 +118,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_bidr_a(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "bidr_a.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[BIDR_A11] or val[BIDR_A12] or val[BIDR_A21] or val[BIDR_A22])
             for k, v in val.items():
@@ -114,7 +127,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_mm(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "mm.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[MM])
             for k, v in val.items():
@@ -123,7 +136,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_mmcat(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "mmcat.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[MM_CAT])
             for k, v in val.items():
@@ -132,7 +145,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_amm(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "amm.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[AMM])
             for k, v in val.items():
@@ -141,7 +154,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_imm(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "imm.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[IMM])
             for k, v in val.items():
@@ -150,7 +163,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_rmm(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "rmm.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[RMM])
             for k, v in val.items():
@@ -159,7 +172,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_rmmcat(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "rmmcat.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[RMM_CAT])
             for k, v in val.items():
@@ -168,7 +181,7 @@ class TestClassifier(unittest.TestCase):
     
     def test_hill(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "hill.ant"))
-        analyzer.check([])
+        analyzer.checks([])
         for key, val in analyzer.default_classifications.items():
             self.assertTrue(val[HILL])
             for k, v in val.items():

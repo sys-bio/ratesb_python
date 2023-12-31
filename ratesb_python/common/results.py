@@ -1,8 +1,23 @@
 from collections import OrderedDict
 
 class Results:
+    """
+    A class used to represent the analysis results of a model.
+    
+    Rep invariant: 
+        num_errors >= 0, num_warnings >= 0
+        num_errors = number of errors, num_warnings = number of warnings
+        
+    Attributes:
+        results (OrderedDict): A dictionary of the results.
+        num_errors (int): The number of errors.
+        num_warnings (int): The number of warnings.
+    """
+    
     def __init__(self):
         self.results = OrderedDict()
+        self.num_errors = 0
+        self.num_warnings = 0
 
     def add_message(self, reaction_name: str, code: int, message: str, is_warning=True):
         """
@@ -14,6 +29,10 @@ class Results:
             message (str): The message to be added.
             is_warning (bool): if the message is warning message.
         """
+        if is_warning:
+            self.num_warnings += 1
+        else:
+            self.num_errors += 1
         if reaction_name not in self.results:
             self.results[reaction_name] = []
         self.results[reaction_name].append({"code": code, "message": message, "is_warning": is_warning})
@@ -23,6 +42,8 @@ class Results:
         Clears all results from the results list.
         """
         self.results = OrderedDict()
+        self.num_errors = 0
+        self.num_warnings = 0
     
     def get_warnings(self):
         """
@@ -50,32 +71,47 @@ class Results:
         """
         Returns all the messages for a specific reaction.
         """
-        return self.results.get(reaction_name, [])
+        return self.results.get(reaction_name, []).copy()
     
     def remove_messages_by_reaction(self, reaction_name: str):
         """
         Removes all the messages for a specific reaction.
         """
         if reaction_name in self.results:
+            for message in self.results[reaction_name]:
+                if message['is_warning']:
+                    self.num_warnings -= 1
+                else:
+                    self.num_errors -= 1
             del self.results[reaction_name]
+        
     
     def count_messages(self):
         """
         Returns the total number of errors and warnings.
         """
-        total_errors = sum(1 for messages in self.results.values() for msg in messages if not msg['is_warning'])
-        total_warnings = sum(1 for messages in self.results.values() for msg in messages if msg['is_warning'])
-        return total_errors, total_warnings
-
-    def __str__(self):
+        return self.num_errors + self.num_warnings
+    
+    def count_errors(self):
         """
-        Overrides the __str__ method to print the results.
+        Returns the total number of errors.
+        """
+        return self.num_errors
+
+    def count_warnings(self):
+        """
+        Returns the total number of warnings.
+        """
+        return self.num_warnings
+
+    def __repr__(self):
+        """
+        Overrides the __repr__ method.
 
         Returns:
             str: A string representation of the results.
         """
         str_repr = ''
-        # str_repr += f"Total errors and warnings: {str(self.count_messages)}"
         for reaction_name, messages in self.results.items():
             str_repr += f'{reaction_name}:\n'
             for message in messages:
@@ -87,28 +123,3 @@ class Results:
                 else:
                     str_repr += f'  Error 000{str(code)}: {message_body}\n'
         return str_repr
-    
-    def to_html(self):
-        """
-        Converts the results to HTML format.
-        
-        Returns:
-            str: A string representation of the results in HTML format.
-        """
-        html_repr = '<table style="width:100%; border:1px solid black;">'
-        
-        # Header
-        html_repr += '<tr><th>Reaction</th><th>Type</th><th>Code</th><th>Message</th></tr>'
-
-        # Data Rows
-        for reaction_name, messages in self.results.items():
-            for message in messages:
-                is_warning = message['is_warning']
-                code = message['code']
-                message_body = message['message']
-                message_type = 'Warning' if is_warning else 'Error'
-                html_repr += f'<tr><td>{reaction_name}</td><td>{message_type}</td><td>{code}</td><td>{message_body}</td></tr>'
-        
-        html_repr += '</table>'
-        return html_repr
-

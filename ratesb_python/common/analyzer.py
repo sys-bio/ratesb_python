@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import json
 import sys
 import os
 current_dir = os.path.dirname(__file__)
@@ -75,6 +76,30 @@ MM_CAT_SBOS = [28, 29, 30, 31, 199, 430, 270, 458, 275, 273, 379, 440, 443, 451,
 
 HILL_SBOS = [192, 195, 198]
 
+ALL_CHECKS = []
+ERROR_CHECKS = []
+WARNING_CHECKS = []
+for i in range(1, 3):
+    ALL_CHECKS.append(i)
+    ERROR_CHECKS.append(i)
+for i in range(1001, 1007):
+    ALL_CHECKS.append(i)
+    WARNING_CHECKS.append(i)
+for i in range(1010, 1011):
+    ALL_CHECKS.append(i)
+    WARNING_CHECKS.append(i)
+for i in range(1020, 1023):
+    ALL_CHECKS.append(i)
+    WARNING_CHECKS.append(i)
+for i in range(1030, 1038):
+    ALL_CHECKS.append(i)
+    WARNING_CHECKS.append(i)
+for i in range(1040, 1045):
+    ALL_CHECKS.append(i)
+    WARNING_CHECKS.append(i)
+    
+with open(os.path.join(os.path.dirname(__file__), "messages.json")) as file:
+    MESSAGES = json.load(file)
 
 @dataclass
 class ReactionData:
@@ -93,6 +118,7 @@ class ReactionData:
     is_reversible: bool
     sbo_term: int
     codes: List[int]
+    non_constant_params: List[str]
 
 
 class Analyzer:
@@ -102,8 +128,40 @@ class Analyzer:
     for processing SBML models, and SBMLKinetics for analyzing SBML models and classifying 
     rate laws. The class can return errors and warnings based on the specified checks.
     """
+    
+    @staticmethod
+    def list_all_checks():
+        """
+        Returns a string representation of all the checks.
+        """
+        ret = ""
+        ret += "Error checks:\n"
+        for code in ERROR_CHECKS:
+            ret += str(code) + ": " + Analyzer.list_check(code) + "\n"
+        ret += "\nWarning checks:\n"
+        for code in WARNING_CHECKS:
+            ret += Analyzer.list_check(code) + "\n"
+        return ret
+    
+    @staticmethod
+    def list_check(code):
+        """
+        Returns a string representation of the check corresponding to the provided code.
 
-    def __init__(self, model_str: str, rate_law_classifications_path: str = None):
+        Args:
+            code (int): The code of the check.
+        """
+        ret = str(code) + ": "
+        if code not in ALL_CHECKS:
+            return None
+        if code < 1000:
+            ret += MESSAGES["errors"][str(code)]
+        else:
+            ret += MESSAGES["warnings"][str(code)]
+        return ret
+        
+
+    def __init__(self, model_str: str, rate_law_classifications_path: str=None):
         """
         Initializes the Analyzer class.
 
@@ -120,21 +178,36 @@ class Analyzer:
             print(str(results))
             str(results)
         """
-        splitted_path = os.path.splitext(model_str)
-        ext = splitted_path[1]
-        xml = ''
-        if ext == '.ant' or ext == '.txt':
-            ant = util.get_model_str(model_str, False)
-            load_int = antimony.loadAntimonyString(ant)
+        # check if parameters are strings
+        if not isinstance(model_str, str):
+            raise ValueError("Invalid model_str format, should be string.")
+        if rate_law_classifications_path and not isinstance(rate_law_classifications_path, str):
+            raise ValueError("Invalid rate_law_classifications_path format, should be string.")
+        # check if the model_str is sbml
+        if '<?xml' in model_str:
+            if '<sbml' not in model_str:
+                raise ValueError("Invalid SBML model.")
+            else:
+                xml = model_str
+        else:
+            # model_str is not sbml
+            load_int = antimony.loadAntimonyString(model_str)
             if load_int > 0:
                 xml = antimony.getSBMLString()
+            elif model_str.endswith('.ant') or model_str.endswith('.txt') or model_str.endswith('.xml'):
+                # model_str is path to model
+                xml = ''
+                if model_str.endswith('.ant') or model_str.endswith('.txt'):
+                    ant = util.get_model_str(model_str, False)
+                    load_int = antimony.loadAntimonyString(ant)
+                    if load_int > 0:
+                        xml = antimony.getSBMLString()
+                    else:
+                        raise ValueError("Invalid Antimony model.")
+                else:
+                    xml = util.get_model_str(model_str, True)
             else:
-                raise ValueError("Invalid Antimony model.")
-        elif ext == '.xml':
-            xml = util.get_model_str(model_str, True)
-        else:
-            raise ValueError(
-                "Invalid file format, accepting .xml, .ant, and .txt")
+                raise ValueError("Invalid model_str format, should be SBML or Antimony string, or path to model file.")
         reader = libsbml.SBMLReader()
         document = reader.readSBMLFromString(xml)
         util.checkSBMLDocument(document)
@@ -153,23 +226,7 @@ class Analyzer:
             if len(self.custom_classifier.warning_message) > 0:
                 print(self.custom_classifier.warning_message)
 
-    def check(self, code: Optional[int] = None):
-        """
-        Performs a check based on the provided error or warning code. If no code is provided, 
-        all checks are performed.
-
-        Args:
-            code (Optional[int]): Code of the check to perform. If None, all checks are performed.
-
-        Updates:
-            The results of the check(s) to self.results.
-        """
-        if code is None:
-            self.check_except([])
-        else:
-            self.checks([code])
-
-    def check_except(self, excluded_codes: Optional[List[int]] = []):
+    def check_except(self, excluded_codes: Optional[List[int]]=[]):
         """
         Performs all checks except the ones corresponding to the provided list of error or warning codes.
 
@@ -179,20 +236,7 @@ class Analyzer:
         Updates:
             The results of the check(s) to self.results.
         """
-        all_checks = []
-        for i in range(1, 3):
-            all_checks.append(i)
-        for i in range(1001, 1007):
-            all_checks.append(i)
-        for i in range(1010, 1011):
-            all_checks.append(i)
-        for i in range(1020, 1023):
-            all_checks.append(i)
-        for i in range(1030, 1038):
-            all_checks.append(i)
-        for i in range(1040, 1045):
-            all_checks.append(i)
-        self.checks(list(set(all_checks) - set(excluded_codes)))
+        self.checks(list(set(ALL_CHECKS) - set(excluded_codes)))
 
     def check_all(self):
         """
@@ -239,6 +283,8 @@ class Analyzer:
                 ids_list, species_list, parameter_list, compartment_list)
             boundary_species = self._get_boundary_species(
                 reactant_list, product_list)
+            non_constant_params = self._get_non_constant_params(parameters_in_kinetic_law_only)
+                
 
             data = ReactionData(
                 reaction_id=reaction_id,
@@ -255,7 +301,8 @@ class Analyzer:
                 compartment_in_kinetic_law=compartment_in_kinetic_law,
                 is_reversible=reaction.reaction.getReversible(),
                 sbo_term=sbo_term,
-                codes=codes
+                codes=codes,
+                non_constant_params=non_constant_params
             )
 
             self._set_kinetics_type(**data.__dict__)
@@ -347,6 +394,14 @@ class Analyzer:
         boundary_species += [product for product in product_list if self.model.getSpecies(
             product).getBoundaryCondition()]
         return boundary_species
+
+    def _get_non_constant_params(self, parameters_in_kinetic_law_only):
+        non_constant_params = []
+        for param in parameters_in_kinetic_law_only:
+            libsbml_param = self.model.getParameter(param)
+            if not libsbml_param.getConstant():
+                non_constant_params.append(param)
+        return non_constant_params
 
     def _set_kinetics_type(self, **kwargs):
         reaction_id = kwargs["reaction_id"]
@@ -534,11 +589,7 @@ class Analyzer:
         """
         reaction_id = kwargs["reaction_id"]
         parameters_in_kinetic_law_only = kwargs["parameters_in_kinetic_law_only"]
-        non_constant_params = []
-        for param in parameters_in_kinetic_law_only:
-            libsbml_param = self.model.getParameter(param)
-            if not libsbml_param.getConstant():
-                non_constant_params.append(param)
+        non_constant_params = kwargs["non_constant_params"]
         if len(non_constant_params) > 0:
             non_constant_params = ",".join(non_constant_params)
             self.results.add_message(
@@ -778,15 +829,15 @@ class Analyzer:
         if flag == 5 and 1034 in codes:
             self.results.add_message(
                 reaction_id, 1034, f"Numerator convention not followed and denominator not in alphabetical order")
-        if flag == 6 and 1035 in codes:
-            self.results.add_message(
-                reaction_id, 1035, f"Denominator convention not followed")
-        if flag == 7 and 1036 in codes:
-            self.results.add_message(
-                reaction_id, 1036, f"Numerator not in alphabetical order and denominator convention not followed")
-        if flag == 8 and 1037 in codes:
-            self.results.add_message(
-                reaction_id, 1037, f"Numerator and denominator convention not followed")
+        # if flag == 6 and 1035 in codes:
+        #     self.results.add_message(
+        #         reaction_id, 1035, f"Denominator convention not followed")
+        # if flag == 7 and 1036 in codes:
+        #     self.results.add_message(
+        #         reaction_id, 1036, f"Numerator not in alphabetical order and denominator convention not followed")
+        # if flag == 8 and 1037 in codes:
+        #     self.results.add_message(
+        #         reaction_id, 1037, f"Numerator and denominator convention not followed")
 
     def _check_sboterm_annotations(self, **kwargs):
         """
@@ -822,9 +873,9 @@ class Analyzer:
         elif any(self.default_classifications[reaction_id][key] for key in MM_CAT_KEYS):
             if sbo_term not in MM_CAT_SBOS:
                 flag = 5
-        elif self.default_classifications[reaction_id]['Hill']:
-            if sbo_term not in HILL_SBOS:
-                flag = 6
+        # elif self.default_classifications[reaction_id]['Hill']:
+        #     if sbo_term not in HILL_SBOS:
+        #         flag = 6
         if flag == 1 and 1040 in codes:
             self.results.add_message(
                 reaction_id, 1040, f"Uni-directional mass action annotation not following recommended SBO terms, we recommend annotations to be subclasses of: SBO_0000430, SBO_0000041")

@@ -1,0 +1,50 @@
+[
+    {
+        "name": "incomplete"
+    },
+    {
+        "name": 1
+    },
+    {
+        "name": "invalid expression",
+        "expression": "1 +",
+        "optional_symbols": [],
+        "power_limited_species": []
+    },
+    {
+        "name": "invalid optional symbols (not a list)",
+        "expression": "1 + 1",
+        "optional_symbols": "compartment",
+        "power_limited_species": []
+    },
+    {
+        "name": "invalid optional symbols (not a list of strings)",
+        "expression": "1 + 1",
+        "optional_symbols": ["compartment", 1, 2],
+        "power_limited_species": []
+    },
+    {
+        "name": "invalid optional symbols (invalid names)",
+        "expression": "1 + 1",
+        "optional_symbols": ["compartment", "apple", "banana", "compartment"],
+        "power_limited_species": []
+    },
+    {
+        "name": "invalid power limited species (not a list)",
+        "expression": "1 + 1",
+        "optional_symbols": [],
+        "power_limited_species": "compartment"
+    },
+    {
+        "name": "invalid power limited species (not a list of strings)",
+        "expression": "1 + 1",
+        "optional_symbols": [],
+        "power_limited_species": ["reactant1", 1, 2]
+    },
+    {
+        "name": "invalid power limited species (invalid names)",
+        "expression": "1 + 1",
+        "optional_symbols": [],
+        "power_limited_species": ["reactant1", "apple", "banana", "compartment"]
+    }
+]

@@ -12,16 +12,18 @@ pip install ratesb_python
 
 ## Usage
 
-Below is an example demonstrating how to use the ratesb_python package:
+Below is an example demonstrating how to use the ratesb_python package with file input:
 
 ```python
-from ratesb_python.common.analyzer import Analyzer
+from ratesb_python import Analyzer
 
 # Assuming `model` is your SBML or Antimony model
 analyzer = Analyzer("path/to/model.xml", "path/to/custom_classifications.json")
+# or:
+analyzer2 = Analyzer("S1->P1; k1 * S1") # custom classification file is optional
 
 # Analyze the model for rate law correctness
-results = analyzer.check()
+results = analyzer.check_all()
 
 # Display all errors and warnings
 print(results)
@@ -38,10 +40,9 @@ print(messages)
 # Remove messages for a specific reaction
 results.remove_messages_by_reaction("Reaction1")
 
-# Get total errors and warnings
-errors, warnings = results.count_messages()
-print("Total Errors: ", errors)
-print("Total Warnings: ", warnings)
+# Get number of errors and warnings
+print("Num Errors: ", results.count_errors())
+print("Num Warnings: ", warnings.count_warnings())
 ```
 
 ## Errors and Warnings
@@ -86,7 +87,7 @@ print("Total Warnings: ", warnings)
 For more details about warnings and errors, please refer to "View Error Codes" button in [RateSB](https://sys-bio.github.io/ratesb/).
 
 ## Default Rate Law Classifications
-Before the analysis, we classify each rate law into different categories. If a rate law does not belong to any of the default classes or the custom classification file provided, a warning will be raised.
+Before the analysis, we classify each rate law into different categories (Xu, 2023). If a rate law does not belong to any of the default classes or the custom classification file provided, a warning will be raised.
 
 The following categories are used for classifying rate laws:
 - Zeroth order (ZERO): No reactant or product in the rate law.
@@ -103,6 +104,8 @@ The following categories are used for classifying rate laws:
 - Hill Equation: Describes enzyme kinetics in cooperative binding scenarios, relating reaction rate to substrate concentration through a sigmoidal curve.
 
 The details of the default rate law classifications can be found in the [source code](https://github.com/sys-bio/ratesb_python/tree/main/ratesb_python/common).
+
+[SBMLKinetics]: https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-023-05380-3#citeas
 
 ## Using Custom Rate Law Classifications
 
@@ -142,15 +145,32 @@ Here's an example of how to define your rate laws in the JSON file:
 ]
 ```
 
-## Versions
+## Release Notes
 
-0.1.0: initial release, used SBMLKinetics for rate law classifications
+### 0.1.0
+* initial release, used SBMLKinetics for rate law classifications
 
-0.2.0: removed numpy dependency, updated rate law classifications scheme, no longer using SBMLKinetics for rate law classifications. Restructured code for web integration.
+### 0.2.0
+* removed numpy dependency
+* updated rate law classifications scheme, no longer using SBMLKinetics for rate law classifications
+* Restructured code for web integration
+
+### 0.2.1
+* removed Analyzer.check()
+* added get_all_checks() to get the info about all checks
+* improved testing to full coverage except for trivial ones
+* improved exception messages
+* allowed string of Antimony or SBML model as input
+* simplified the import statement
+* revised existing and added new method and class comments
 
 ## Contributing
 
 Contributions to `ratesb_python` are welcomed! Whether it's bug reports, feature requests, or new code contributions, we value your feedback and contributions. Please submit a pull request or open an issue on our [GitHub repo](https://github.com/sys-bio/ratesb_python).
+
+## Developing
+
+
 
 ## License
 
@@ -158,15 +178,19 @@ Contributions to `ratesb_python` are welcomed! Whether it's bug reports, feature
 
 ## Future Works
 
-- Implement stoichiometry checks for mass actions.
-- Perform checks after default classification to optimize performance.
+* Implement stoichiometry checks for mass actions.
+* Perform checks after default classification to optimize performance.
 
-## Known bugs
+## Known Issues
 
-- checks with no argument does not work properly
+There are some sympy builtin symbols that will raise error such as "S", so a reaction like "S->P; k1*S" would not work.
 
 ## Contact
 
 For additional queries, please contact Longxuan Fan at longxuan@usc.edu.
 
 We hope ratesb_python assists you effectively in your model rate law analysis!
+
+## References
+
+Xu, J. SBMLKinetics: a tool for annotation-independent classification of reaction kinetics for SBML models. BMC Bioinformatics 24, 248 (2023). https://doi.org/10.1186/s12859-023-05380-3

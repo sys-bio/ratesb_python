@@ -4,50 +4,46 @@ import random
 import sympy as sp
 
 def get_model_str(model_reference, is_sbml):
+    """
+    Get the string representation of the model from model_reference
+    
+    Args:
+        model_reference (str): path to the model
+        is_sbml (bool): whether the model is in SBML format
+
+    Raises:
+        ValueError: The input xml file is not a valid SBML file.
+
+    Returns:
+        str: string representation of the model
+    """
+    # Get model_str from model_reference
     model_str = ""
-    if isinstance(model_reference, str):
-        if os.path.isfile(model_reference):
-            with open(model_reference, 'r') as fd:
-                lines = fd.readlines()
-                model_str = ''.join(lines)
-                if len(model_str) == 0:
-                    if "readlines" in dir(model_reference):
-                        lines = model_reference.readlines()
-                    if len(lines) > 0 and isinstance(lines[0], bytes):
-                        lines = [l.decode("utf-8") for l in lines]
-                        model_str = ''.join(lines)
-                        model_reference.close()
-                    elif len(lines) == 0:
-                        model_str = ''
-                    else:
-                        # Must be a string representation of a model
-                        model_str = model_reference
-        else:
-            raise ValueError("Invalid model path!")
-        # Process model_str into a model
-        if is_sbml and "<sbml" not in model_str:
-            # Antimony
-            raise ValueError("Invalid SBML model.")
-        return model_str
-    else:
-        raise ValueError("Invalid model_str format, should be string.")
+    if os.path.isfile(model_reference):
+        with open(model_reference, 'r') as fd:
+            lines = fd.readlines()
+            model_str = ''.join(lines)
+    if is_sbml and "<sbml" not in model_str:
+        # Antimony
+        raise ValueError("Invalid SBML model.")
+    return model_str
 
 def get_json_str(json_reference):
+    """
+    Get the string representation of the json from json_reference
+    """
     json_str = ""
-    if isinstance(json_reference, str):
-        if os.path.isfile(json_reference):
-            with open(json_reference, 'r') as fd:
-                lines = fd.readlines()
-            json_str = ''.join(lines)
-        else:
-            ValueError("Invalid rate law json file.")
+    if os.path.isfile(json_reference):
+        with open(json_reference, 'r') as fd:
+            lines = fd.readlines()
+        json_str = ''.join(lines)
     else:
-        ValueError("Invalid json path.")
+        raise ValueError("Invalid rate law file path.")
     return json_str
 
 def checkSBMLDocument(document): 
-  if (document.getNumErrors() > 0):
-    print("SBML Document Error")
+    if (document.getNumErrors() > 0):
+        print("SBML Document Error")
     
 def check_equal(expr1, expr2, n=10, sample_min=1, sample_max=10):
     """check if two sympy expressions are equal by plugging random numbers
@@ -83,7 +79,7 @@ def check_equal(expr1, expr2, n=10, sample_min=1, sample_max=10):
     return True
 
 def check_symbols_derivative(expr, symbols, is_positive_derivative=True):
-    """check if the derivative to symbols of a expression are always strictly positive
+    """check if the derivative to symbols of a expression are always strictly positive where variables are positive
 
     Args:
         expr (sympy.Expr): sympy expression to evaluate
@@ -104,7 +100,7 @@ def check_symbols_derivative(expr, symbols, is_positive_derivative=True):
             prev = -math.inf
         else:
             prev = math.inf
-        for i in range(100, 1001, 10):
+        for i in range(1, 1001, 10):
             curr = sp.Float(temp_expr.subs(symbol, sp.Float(i/100)))
             if is_positive_derivative:
                 if curr <= prev:

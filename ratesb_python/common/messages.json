@@ -1,0 +1,31 @@
+{
+    "errors": {
+        "1": "No Rate Law entered - The rate law is missing for the given reaction. Please provide a rate law to proceed.",
+        "2": "Expecting reactant in rate law but not found - The reaction contains floating reactants, which are not part of any rate law expression. Please ensure all reactants are included in the rate law expression."
+    },
+    "warnings": {
+        "1001": "Rate law contains only number - The rate law consists of only a numeric value. This is usually not a valid rate law for a reaction.",
+        "1002": "Unrecognized rate law from the standard list (and the custom list if given) - The rate law provided does not match any of the recognized standard and custom rate laws. Please verify the rate law and make sure it is in a supported format.",
+        "1003": "Flux is not increasing as reactant increases - The rate law contains reactant that has a non-positive relationship with the reaction flux. Note: some parameters might not be initialized or assigned a wrong value.",
+        "1004": "Flux is not decreasing as product increases - The rate law contains product that has a non-negative relationship with the reaction flux. Note: some parameters might not be initialized or assigned a wrong value.",
+        "1005": "Expecting boundary species reactant in rate law but not found - The reaction contains boundary species reactants that are not part of any rate law expression. Please ensure all reactants are included in the rate law expression.",
+        "1006": "Expecting parameters to be constants - The parameters in a rate law should be declared as constants in SBML.",
+        "1010": "Irreversible reaction kinetic law contains products - The rate law for an irreversible reaction should not include products. Please verify the rate law and adjust accordingly.",
+        "1020": "We recommend that these parameters start with 'k' - Certain parameters in the rate law are not following the recommended naming convention (starting with 'k'). Consider renaming these parameters to improve readability.",
+        "1021": "We recommend that these parameters start with 'K' - Certain parameters in the rate law are not following the recommended naming convention (starting with 'K'). Consider renaming these parameters to improve readability.",
+        "1022": "We recommend that these parameters start with 'V' - Certain parameters in the rate law are not following the recommended naming convention (starting with 'V'). Consider renaming these parameters to improve readability.",
+        "1030": "Elements of the same type are not ordered properly - Compartments and parameters are not in alphabetical order, or species are of different order as they appear in the reaction. Reordering the elements can improve readability and consistency.",
+        "1031": "Formatting convention not followed (compartment before parameters before species) - The rate law does not follow the recommended formatting convention, which suggests placing compartments before parameters and species. Adjust the rate law to adhere to this convention for better readability and consistency.",
+        "1032": "Denominator not in alphabetical order - The denominator in the rate law is not ordered alphabetically. Reordering the elements can improve readability and consistency.",
+        "1033": "Numerator and denominator not in alphabetical order - Both the numerator and denominator in the rate law are not ordered alphabetically. Reordering the elements can improve readability and consistency.",
+        "1034": "Numerator convention not followed and denominator not in alphabetical order - The numerator in the rate law does not follow the recommended formatting convention and the denominator is not ordered alphabetically. Adjust the rate law to adhere to these conventions for better readability and consistency.",
+        "1035": "Denominator convention not followed - The denominator in the rate law does not follow the recommended formatting convention. Adjust the rate law to adhere to this convention for better readability and consistency.",
+        "1036": "Numerator not in alphabetical order and denominator convention not followed - The numerator in the rate law is not ordered alphabetically and the denominator does not follow the recommended formatting convention. Adjust the rate law to adhere to these conventions for better readability and consistency.",
+        "1037": "Numerator and denominator convention not followed - Both the numerator and denominator in the rate law do not follow the recommended formatting convention. Adjust the rate law to adhere to this convention for better readability and consistency.",
+        "1040": "Uni-directional mass action annotation not following recommended SBO terms - We recommend annotations to be subclasses of: SBO_0000430, SBO_0000041.",
+        "1041": "Uni-term with the moderator annotation not following recommended SBO terms - We recommend annotations to be subclasses of: SBO_0000041.",
+        "1042": "Bi-directional mass action or Bi-terms with the moderator annotation not following recommended SBO terms - We recommend annotations to be subclasses of: SBO_0000042.",
+        "1043": "Michaelis-Menten kinetics without an explicit enzyme annotation not following recommended SBO terms - We recommend annotations to be subclasses of: SBO_0000028.",
+        "1044": "Michaelis-Menten kinetics with an explicit enzyme annotation not following recommended SBO terms - We recommend annotations to be subclasses of: SBO_0000028, SBO_0000430."
+    }
+}

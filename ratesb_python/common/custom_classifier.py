@@ -72,39 +72,36 @@ class _CustomClassifier:
                     continue
                 
                 valid_optional_symbols = ["compartment", "parameter", "reactant1", "reactant2", "reactant3", "product1", "product2", "product3", "enzyme"]
-                if not isinstance(item["optional_symbols"], list):
-                    warnings.append(f"optional_symbols in rate law {item['name']} should be a list of strings.")
-                    continue
                 
                 is_error = False
                 for symbol in item["optional_symbols"]:
                     if not isinstance(symbol, str):
                         warnings.append(f"optional_symbols in rate law {item['name']} should be a list of strings.")
                         is_error = True
+                        break
                     if symbol not in valid_optional_symbols:
                         warnings.append(f"Invalid item in optional_symbols in rate law {item['name']}, should only contain {', '.join(valid_optional_symbols)}.")
                         is_error = True
+                        break
                 if is_error:
                     continue
                     
                 
                 valid_power_limited_species = ["reactant1", "reactant2", "reactant3", "product1", "product2", "product3", "enzyme"]
-                if not isinstance(item["power_limited_species"], list):
-                    warnings.append(f"power_limited_species in rate law {item['name']} should be a list of strings.")
-                    continue
                 
                 for symbol in item["power_limited_species"]:
                     if not isinstance(symbol, str):
                         warnings.append(f"power_limited_species in rate law {item['name']} should be a list of strings.")
                         is_error = True
+                        break
                     if symbol not in valid_power_limited_species:
                         warnings.append(f"Invalid item in power_limited_species in rate law {item['name']}, should only contain {', '.join(valid_power_limited_species)}.")
                         is_error = True
+                        break
                 if is_error:
                     continue
                 self.custom_classifications.append(item)
 
-            # If there are warnings, print them
             if warnings:
                 self.warning_message = 'Some items in your JSON file were invalid and have been removed.\nDetails:\n'
                 self.warning_message += '\n'.join(warnings)
@@ -248,6 +245,10 @@ class _CustomClassifier:
         return expr.replace(sympy.Pow, replace_if_applicable)
     
     def remove_constant_multiplier(self, expr):
+        """
+        Removes constant multipliers from the expression.
+        e.g. 2 * x + 3 * y + 4 * z -> x + y + z
+        """
         # Split the expression into terms
         expanded_expr = sympy.expand(expr)
         terms = expanded_expr.as_ordered_terms()

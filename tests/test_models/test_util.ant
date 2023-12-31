@@ -1,0 +1,6 @@
+model test_util()
+    J0: S1 -> S2; k1*S1;
+    S1 = 1.0;
+    S2 = 0.0;
+    k1 = 0.1;
+end
