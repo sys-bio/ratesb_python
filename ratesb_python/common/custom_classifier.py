@@ -4,8 +4,11 @@ import json
 import sys
 import os
 current_dir = os.path.abspath(os.path.dirname(__file__))
+parent_dir = os.path.dirname(current_dir)
 sys.path.append(current_dir)
-import util
+sys.path.append(parent_dir)
+
+from common import util
 import re
 import sympy
 
@@ -40,8 +43,10 @@ class _CustomClassifier:
         if ext != '.json':
             raise ValueError("Invalid file format, accepting .json")
         else:
-            json_str = util.get_json_str(self.rate_law_classifications_path)
-            unchecked_custom_classifications = json.loads(json_str)
+            # read the file and load the data
+            with open(self.rate_law_classifications_path, 'r') as file:
+                json_str = file.read()
+                unchecked_custom_classifications = json.loads(json_str)
 
             # This list will be used to collect all warnings
             warnings = []
