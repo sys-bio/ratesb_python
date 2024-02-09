@@ -98,7 +98,8 @@ for i in range(1040, 1045):
     ALL_CHECKS.append(i)
     WARNING_CHECKS.append(i)
     
-with open(os.path.join(os.path.dirname(__file__), "messages.json")) as file:
+messages_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "messages.json")
+with open(messages_path) as file:
     MESSAGES = json.load(file)
 
 @dataclass
