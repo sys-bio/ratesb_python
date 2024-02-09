@@ -33,3 +33,4 @@ jobs:
       run: |
         pytest tests/test_analyzer.py
         pytest tests/test_classifier.py
+      working-directory: ./ # Adjust if necessary to point to the directory where pytest should run
