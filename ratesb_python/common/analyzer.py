@@ -9,7 +9,7 @@ from custom_classifier import _CustomClassifier
 # from SBMLKinetics.common.reaction import Reaction
 from typing import List, Dict, Optional
 from SBMLKinetics.common.simple_sbml import SimpleSBML
-from common import util
+import util
 from results import Results
 
 import antimony
