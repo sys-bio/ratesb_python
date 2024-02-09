@@ -27,6 +27,8 @@ jobs:
     - name: Install pytest
       run: |
         pip install pytest
+    - name: Add project root to PYTHONPATH
+      run: echo "PYTHONPATH=${{ github.workspace }}" >> $GITHUB_ENV
     - name: Run tests
       run: |
         pytest tests/test_analyzer.py

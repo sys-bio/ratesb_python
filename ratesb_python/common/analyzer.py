@@ -3,14 +3,13 @@ import json
 import sys
 import os
 current_dir = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(current_dir)
 
 from custom_classifier import _CustomClassifier
 # from SBMLKinetics.common.simple_sbml import SimpleSBML
 # from SBMLKinetics.common.reaction import Reaction
 from typing import List, Dict, Optional
 from SBMLKinetics.common.simple_sbml import SimpleSBML
-import util
+from common import util
 from results import Results
 
 import antimony
