@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import json
 import sys
 import os
-current_dir = os.path.dirname(__file__)
+current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(current_dir)
 
 from custom_classifier import _CustomClassifier
@@ -218,8 +218,8 @@ class Analyzer:
         self.default_classifications = {}
         self.custom_classifications = {}
         self.results = Results()
-        self.default_classifier = _CustomClassifier(os.path.join(
-            os.path.dirname(__file__), "default_classifier.json"))
+        default_classifier_path = os.path.join(current_dir, "default_classifier.json")
+        self.default_classifier = _CustomClassifier(default_classifier_path)
 
         if rate_law_classifications_path:
             self.custom_classifier = _CustomClassifier(
