@@ -12,8 +12,3 @@ license = {file = "LICENSE"}
 
 [tool.setuptools]
 packages = ["ratesb_python"]
-include_package_data = true
-
-# If you want to be more explicit about which files to include
-[tool.setuptools.package_data]
-"ratesb_python.ratesb_python.common" = ["*.json"]
