@@ -164,6 +164,14 @@ Here's an example of how to define your rate laws in the JSON file:
 * simplified the import statement
 * revised existing and added new method and class comments
 
+### 0.2.2
+* bug fixes
+* created github workflow for CI
+
+### 0.2.3
+* include .json files
+* fixed path finding issue
+
 ## Contributing
 
 Contributions to `ratesb_python` are welcomed! Whether it's bug reports, feature requests, or new code contributions, we value your feedback and contributions. Please submit a pull request or open an issue on our [GitHub repo](https://github.com/sys-bio/ratesb_python).
