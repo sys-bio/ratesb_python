@@ -1,14 +1,18 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "ratesb_python"
 version = "0.2.3"
 description = "rate law analysis for systems biology"
-authors = [{name = "Longxuan Fan", email = "longxuan@usc.edu"}]
 readme = "README.md"
 license = {file = "LICENSE"}
-
-[tool.setuptools]
-packages = ["ratesb_python"]
+authors = [{name = "Longxuan Fan", email = "longxuan@usc.edu"}]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "antimony",
+    "sbmlkinetics",
+    "sympy",
+    "python-libsbml"
+]
