@@ -146,6 +146,13 @@ Here's an example of how to define your rate laws in the JSON file:
 ]
 ```
 
+## Testing
+
+For testing, run 
+```bash
+python -m unittest
+```
+
 ## Release Notes
 
 ### 0.1.0
@@ -172,6 +179,9 @@ Here's an example of how to define your rate laws in the JSON file:
 ### 0.2.3
 * include .json files
 * fixed path finding issue
+
+### 0.2.4
+* updated instructions in readme
 
 ## Contributing
 
