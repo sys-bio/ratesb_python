@@ -594,10 +594,14 @@ class Analyzer:
         reaction_id = kwargs["reaction_id"]
         parameters_in_kinetic_law_only = kwargs["parameters_in_kinetic_law_only"]
         non_constant_params = kwargs["non_constant_params"]
-        if len(non_constant_params) > 0:
-            non_constant_params = ",".join(non_constant_params)
+        non_constant_params_in_kinetic_law = []
+        for param in parameters_in_kinetic_law_only:
+            if param in non_constant_params:
+                non_constant_params_in_kinetic_law.append(param)
+        if len(non_constant_params_in_kinetic_law) > 0:
+            non_constant_params_in_kinetic_law = ",".join(non_constant_params_in_kinetic_law)
             self.results.add_message(
-                reaction_id, 1006, f"Expecting these parameters to be constants: {non_constant_params}")
+                reaction_id, 1006, f"Expecting these parameters to be constants: {non_constant_params_in_kinetic_law}")
 
     def _check_irreversibility(self, **kwargs):
         """
