@@ -23,7 +23,8 @@ analyzer = Analyzer("path/to/model.xml", "path/to/custom_classifications.json")
 analyzer2 = Analyzer("S1->P1; k1 * S1") # custom classification file is optional
 
 # Analyze the model for rate law correctness
-results = analyzer.check_all()
+analyzer.check_all()
+results = analyzer.results
 
 # Display all errors and warnings
 print(results)
@@ -42,7 +43,7 @@ results.remove_messages_by_reaction("Reaction1")
 
 # Get number of errors and warnings
 print("Num Errors: ", results.count_errors())
-print("Num Warnings: ", warnings.count_warnings())
+print("Num Warnings: ", results.count_warnings())
 ```
 
 ## Errors and Warnings
