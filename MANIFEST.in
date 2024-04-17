@@ -1,0 +1,30 @@
+# Include the README, LICENSE, and CHANGELOG files
+include README.md
+include LICENSE
+include CHANGELOG.md
+
+# Include JSON data files in the specified package directory
+recursive-include ratesb_python/common *.json
+
+# Exclude all bytecode
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude *.pyo
+
+# Exclude files and directories related to development, version control, or builds
+exclude .gitignore
+exclude .gitattributes
+exclude .devcontainer
+exclude .coverage
+exclude dist
+exclude tests
+exclude venv
+exclude paper
+exclude *.egg-info
+recursive-exclude *.egg-info *
+recursive-exclude build *
+recursive-exclude .devcontainer *
+recursive-exclude dist *
+recursive-exclude tests *
+recursive-exclude venv *
+recursive-exclude paper *

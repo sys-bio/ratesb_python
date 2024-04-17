@@ -50,6 +50,8 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+tests/biomodels/*
+tests/test_biomodels.py
 
 # Translations
 *.mo
@@ -67,6 +69,7 @@ instance/
 
 # Scrapy stuff:
 .scrapy
+.DS_Store
 
 # Sphinx documentation
 docs/_build/

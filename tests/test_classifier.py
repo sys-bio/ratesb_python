@@ -1,20 +1,5 @@
 import unittest
-from unittest.mock import patch
-from unittest.mock import MagicMock
-from unittest.mock import Mock
-from unittest.mock import call
-from unittest.mock import ANY
 import os
-import math
-import random
-
-import sympy as sp
-import numpy as np
-import pandas as pd
-import libsbml
-import antimony as sb
-import json
-
 import sys
  
 # setting path
@@ -74,15 +59,15 @@ class TestClassifier(unittest.TestCase):
         
     def test_false(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "false.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             for k, v in val.items():
                 self.assertFalse(v)
 
     def test_zero(self):
         analyzer = Analyzer(ZERO_PATH)
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[ZERO])
             # assert all other values are false
             for k, v in val.items():
@@ -91,8 +76,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_undr(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "undr.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[UNDR1] or val[UNDR2] or val[UNDR3])
             for k, v in val.items():
                 if k != UNDR1 and k != UNDR2 and k != UNDR3:
@@ -100,8 +85,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_undr_a(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "undr_a.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[UNDR_A1] or val[UNDR_A2] or val[UNDR_A3])
             for k, v in val.items():
                 if k != UNDR_A1 and k != UNDR_A2 and k != UNDR_A3:
@@ -109,8 +94,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_bidr(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "bidr.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[BIDR11] or val[BIDR12] or val[BIDR21] or val[BIDR22])
             for k, v in val.items():
                 if k != BIDR11 and k != BIDR12 and k != BIDR21 and k != BIDR22:
@@ -118,8 +103,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_bidr_a(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "bidr_a.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[BIDR_A11] or val[BIDR_A12] or val[BIDR_A21] or val[BIDR_A22])
             for k, v in val.items():
                 if k != BIDR_A11 and k != BIDR_A12 and k != BIDR_A21 and k != BIDR_A22:
@@ -127,8 +112,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_mm(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "mm.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[MM])
             for k, v in val.items():
                 if k != MM:
@@ -136,8 +121,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_mmcat(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "mmcat.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[MM_CAT])
             for k, v in val.items():
                 if k != MM_CAT:
@@ -145,8 +130,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_amm(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "amm.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[AMM])
             for k, v in val.items():
                 if k != AMM:
@@ -154,8 +139,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_imm(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "imm.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[IMM])
             for k, v in val.items():
                 if k != IMM:
@@ -163,8 +148,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_rmm(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "rmm.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[RMM])
             for k, v in val.items():
                 if k != RMM:
@@ -172,8 +157,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_rmmcat(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "rmmcat.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[RMM_CAT])
             for k, v in val.items():
                 if k != RMM_CAT:
@@ -181,8 +166,8 @@ class TestClassifier(unittest.TestCase):
     
     def test_hill(self):
         analyzer = Analyzer(os.path.join(DIR, TEST_CLASSIFIER_MODELS, "hill.ant"))
-        analyzer.checks([])
-        for key, val in analyzer.default_classifications.items():
+        analyzer.checks([1002])
+        for key, val in analyzer.data.default_classifications.items():
             self.assertTrue(val[HILL])
             for k, v in val.items():
                 if k != HILL:

@@ -111,6 +111,8 @@ class Results:
         Returns:
             str: A string representation of the results.
         """
+        if self.count_messages() == 0:
+            return 'No errors or warnings found.'
         str_repr = ''
         for reaction_name, messages in self.results.items():
             str_repr += f'{reaction_name}:\n'

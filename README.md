@@ -29,6 +29,12 @@ results = analyzer.results
 # Display all errors and warnings
 print(results)
 
+# Check selected errors and warnings
+analyzer.checks([1, 2, 1001, 1002])
+
+# No need to set results = analyzer.results again as results updates automatically
+print(results)
+
 # Display only warnings
 warnings = results.get_warnings()
 for reaction, messages in warnings.items():
@@ -183,6 +189,11 @@ python -m unittest
 ### 0.2.4
 * updated instructions in readme
 
+### 0.2.5
+* Separated model reading from analysis
+* Tested on 1054 biomodels and fixed bugs
+* Added check_model method to allow user to use the package with one line
+
 ## Contributing
 
 Contributions to `ratesb_python` are welcomed! Whether it's bug reports, feature requests, or new code contributions, we value your feedback and contributions. Please submit a pull request or open an issue on our [GitHub repo](https://github.com/sys-bio/ratesb_python).
@@ -199,6 +210,7 @@ Contributions to `ratesb_python` are welcomed! Whether it's bug reports, feature
 
 * Implement stoichiometry checks for mass actions.
 * Perform checks after default classification to optimize performance.
+* Give user option to not use the default rate law classification to improve performance
 
 ## Known Issues
 

@@ -12,6 +12,9 @@ from common import util
 import re
 import sympy
 
+# timeout if rate law is too complex
+TIMEOUT = 10000
+
 class _CustomClassifier:
     """Custom Classifier for rate laws.
 
@@ -208,17 +211,22 @@ class _CustomClassifier:
             kinetics_expression = item['expression'].replace("^", "**")
             optional_symbols = item['optional_symbols']
             all_expr = self.get_all_expr(kinetics_expression, optional_symbols)
+            all_expr = [sympy.sympify(expr) for expr in all_expr]
             power_limited_species = item['power_limited_species']
             classified_true = False
-            for replaced_kinetics in replaced_kinetics_list:
-                replaced_kinetics_sympify = self.lower_powers(sympy.sympify(replaced_kinetics), power_limited_species)
-                replaced_kinetics_sympify = self.remove_constant_multiplier(replaced_kinetics_sympify)
-                comparison_result = any(util.check_equal(sympy.simplify(expr), replaced_kinetics_sympify) for expr in all_expr)
-                if comparison_result:
-                    ret[item['name']] = True
-                    classified_true = True
-                    any_true = True
-                    break
+            try:
+                for replaced_kinetics in replaced_kinetics_list:
+                    replaced_kinetics_sympify = self.lower_powers(sympy.sympify(replaced_kinetics), power_limited_species)
+                    replaced_kinetics_sympify = self.remove_constant_multiplier(replaced_kinetics_sympify)
+                    comparison_result = any(util.check_equal(expr, replaced_kinetics_sympify) for expr in all_expr)
+                    if comparison_result:
+                        ret[item['name']] = True
+                        classified_true = True
+                        any_true = True
+                        break
+            except:
+                ret[item['name']] = False
+                continue
             if not classified_true:
                 ret[item['name']] = False
         return ret

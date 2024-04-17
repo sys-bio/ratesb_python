@@ -45,7 +45,7 @@ def checkSBMLDocument(document):
     if (document.getNumErrors() > 0):
         print("SBML Document Error")
     
-def check_equal(expr1, expr2, n=10, sample_min=1, sample_max=10):
+def check_equal(expr1, expr2, n=4, sample_min=1, sample_max=10):
     """check if two sympy expressions are equal by plugging random numbers
     into each symbols in both expressions and test if they are equal
 
@@ -60,22 +60,22 @@ def check_equal(expr1, expr2, n=10, sample_min=1, sample_max=10):
         bool: if the two expressions are equal
     """
     # Regroup all free symbols from both expressions
-    free_symbols = set(expr1.free_symbols) | set(expr2.free_symbols)
+    free_symbols = list(set(expr1.free_symbols) | set(expr2.free_symbols))
     
-    # Numeric (brute force) equality testing n-times
-    prev_frac = None
+    # Precompile expressions to numerical functions for faster evaluation
+    expr1_func = sp.lambdify(free_symbols, expr1, "numpy")
+    expr2_func = sp.lambdify(free_symbols, expr2, "numpy")
+
     for i in range(n):
         your_values = [random.uniform(sample_min, sample_max) for _ in range(len(free_symbols))]
-        expr1_num=expr1
-        expr2_num=expr2
-        for symbol,number in zip(free_symbols, your_values):
-            expr1_num=expr1_num.subs(symbol, sp.Float(number))
-            expr2_num=expr2_num.subs(symbol, sp.Float(number))
-        expr1_num=float(expr1_num)
-        expr2_num=float(expr2_num)
-        if not math.isclose(expr1_num, expr2_num) and (prev_frac is not None and prev_frac != expr1_num/expr2_num):
+        
+        # Evaluate both expressions with the generated values
+        expr1_num = expr1_func(*your_values)
+        expr2_num = expr2_func(*your_values)
+        
+        # Check for numerical closeness
+        if not math.isclose(expr1_num, expr2_num, rel_tol=1e-9):
             return False
-        prev_frac = expr1_num/expr2_num
     return True
 
 def check_symbols_derivative(expr, symbols, is_positive_derivative=True):
@@ -101,12 +101,29 @@ def check_symbols_derivative(expr, symbols, is_positive_derivative=True):
         else:
             prev = math.inf
         for i in range(1, 1001, 10):
-            curr = sp.Float(temp_expr.subs(symbol, sp.Float(i/100)))
-            if is_positive_derivative:
-                if curr <= prev:
-                    return False
-            else:
-                if curr >= prev:
-                    return False
-            prev = curr
+            try:
+                curr = sp.Float(temp_expr.subs(symbol, sp.Float(i/100)))
+                if is_positive_derivative:
+                    if curr <= prev:
+                        return False
+                else:
+                    if curr >= prev:
+                        return False
+                prev = curr
+            except:
+                return False
     return True
+
+
+def substitute_sympy_builtin_symbols_with_underscore(symbol):
+    """
+    Substitute sympy built-in symbols with underscored symbols
+    This method recognizes which symbols are built-in sympy symbols and substitutes them with underscored symbols
+
+    Args:
+        symbol (sympy.Symbol): symbol to substitute
+
+    Returns:
+        str: symbol name with underscore in front of the symbol
+    """
+    
