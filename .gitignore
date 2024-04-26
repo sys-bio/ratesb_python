@@ -50,6 +50,8 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+
+# test taking too long to run
 tests/biomodels/*
 tests/test_biomodels.py
 

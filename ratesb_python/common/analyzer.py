@@ -381,16 +381,12 @@ class Analyzer:
             A warning message to results specifying if the flux is not increasing as reactant increases.
         """
         reaction_id = kwargs["reaction_id"]
+        ids_list = kwargs["ids_list"]
         reactant_list = kwargs["reactant_list"]
         kinetics = kwargs["kinetics"]
         
-        # first check if kinetics can be sympified, TODO: support functions in MathML 
-        try:
-            sympified_kinetics = sp.sympify(kinetics)
-        except:
-            return
 
-        if not util.check_symbols_derivative(sympified_kinetics, reactant_list):
+        if not util.check_kinetics_derivative(kinetics, ids_list, reactant_list):
             self.data.results.add_message(
                 reaction_id, 1003, "Flux is not increasing as reactant increases.")
 
@@ -409,6 +405,7 @@ class Analyzer:
             A warning message to results specifying if the flux is not decreasing as product increases.
         """
         reaction_id = kwargs["reaction_id"]
+        ids_list = kwargs["ids_list"]
         is_reversible = kwargs["is_reversible"]
         product_list = kwargs["product_list"]
         kinetics = kwargs["kinetics"]
@@ -416,8 +413,7 @@ class Analyzer:
         # first check if kinetics can be sympified, TODO: support functions in MathML 
         if is_reversible:
             try:
-                sympified_kinetics = sp.sympify(kinetics)
-                if not util.check_symbols_derivative(sympified_kinetics, product_list, False):
+                if not util.check_kinetics_derivative(kinetics, ids_list, product_list, is_positive_derivative=False):
                     self.data.results.add_message(
                         reaction_id, 1004, "Flux is not decreasing as product increases.")
             except:
@@ -587,8 +583,10 @@ class Analyzer:
 
         strange_func = 0
         pre_symbols = ''
-        for i in range(len(ids_list)):
-            pre_symbols += ids_list[i]
+        ids_with_underscore = []
+        kinetics_with_underscore = util.add_underscore_to_ids(ids_list, kinetics_sim, ids_with_underscore)
+        for i in range(len(ids_with_underscore)):
+            pre_symbols += ids_with_underscore[i]
             pre_symbols += ' '
         pre_symbols = pre_symbols[:-1]  # remove the space at the end
         pre_symbols_comma = pre_symbols.replace(" ", ",")
@@ -600,7 +598,7 @@ class Analyzer:
 
         try:  # check if there is strange func (i.e. delay) in kinetic law;
             # sometimes ids_list is not enough for all the ids in kinetics
-            eq_stat = "kinetics_eq = " + kinetics_sim
+            eq_stat = "kinetics_eq = " + kinetics_with_underscore
             exec(eq_stat, globals())
         except:
             strange_func = 1
@@ -615,6 +613,9 @@ class Analyzer:
                 eq[1] = denominator
             except:
                 pass
+        
+        eq[0] = util.remove_underscore_from_ids(ids_list, eq[0])
+        eq[1] = util.remove_underscore_from_ids(ids_list, eq[1])
 
         return eq
 

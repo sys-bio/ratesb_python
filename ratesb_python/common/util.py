@@ -78,52 +78,74 @@ def check_equal(expr1, expr2, n=4, sample_min=1, sample_max=10):
             return False
     return True
 
-def check_symbols_derivative(expr, symbols, is_positive_derivative=True):
-    """check if the derivative to symbols of a expression are always strictly positive where variables are positive
+def check_kinetics_derivative(kinetics, ids_list, species_list, is_positive_derivative=True):
+    """check if the derivative to ids_list of a kinetics are always strictly positive where variables are positive
 
     Args:
-        expr (sympy.Expr): sympy expression to evaluate
-        symbols (List): list of symbols to check derivative
-        ids_list (List): all symbols in expression
+        kinetics (str): kinetics expression
+        ids_list (List): all ids in expression
+        species_list (List): all species in expression
         is_positive_derivative (bool, optional): if we are checking the derivative is positive, checking negative otherwise. Defaults to True.
 
     Returns:
         bool: if every symbol's derivative if strictly positive if is_positive_derivative, strictively negative if not is_positive_derivative
     """
-    # Numeric (brute force) equality testing n-times
-    for symbol in symbols:
-        temp_expr = expr
-        for other_symbol in expr.free_symbols:
-            if str(other_symbol) != symbol:
-                temp_expr = temp_expr.subs(other_symbol, sp.Float(1))
+    for symbol in ids_list:
+        if symbol not in species_list:
+            kinetics = kinetics.replace(symbol, "1")
+    for species in species_list:
+        curr_kinetics = kinetics
+        for other_species in species_list:
+            if other_species != species:
+                curr_kinetics = curr_kinetics.replace(other_species, "1")
         if is_positive_derivative:
             prev = -math.inf
         else:
             prev = math.inf
         for i in range(1, 1001, 10):
-            try:
-                curr = sp.Float(temp_expr.subs(symbol, sp.Float(i/100)))
-                if is_positive_derivative:
-                    if curr <= prev:
-                        return False
-                else:
-                    if curr >= prev:
-                        return False
-                prev = curr
-            except:
-                return False
+            expr = curr_kinetics.replace(species, str(i/100))
+            curr = eval(expr)
+            if is_positive_derivative:
+                if curr <= prev:
+                    return False
+            else:
+                if curr >= prev:
+                    return False
+            prev = curr
     return True
 
 
-def substitute_sympy_builtin_symbols_with_underscore(symbol):
-    """
-    Substitute sympy built-in symbols with underscored symbols
-    This method recognizes which symbols are built-in sympy symbols and substitutes them with underscored symbols
-
+def add_underscore_to_ids(ids_list, kinetics, ids_to_add):
+    """Add "___" to the ids in the ids_list, without changing the original ids_list
+        add the new ids to the ids_to_add list
+        change the ids in the kinetics to the new ids
     Args:
-        symbol (sympy.Symbol): symbol to substitute
-
+        ids_list (List): list of ids
+        kinetics (str): kinetics expression
+        ids_to_add (List): empty list to add the new ids
+    
     Returns:
-        str: symbol name with underscore in front of the symbol
+        str: kinetics expression with new ids
+    """
+    for symbol in ids_list:
+        new_id = "___" + symbol
+        ids_to_add.append(new_id)
+        kinetics = kinetics.replace(symbol, new_id)
+    return kinetics
+
+def remove_underscore_from_ids(ids_list, kinetics):
+    """Remove "___" from the ids in the kinetics
+        ids_list should not contain "___"
+    Args:
+        ids_list (List): list of ids without "___"
+        kinetics (str): kinetics expression
+    
+    Returns:
+        str: kinetics expression with new ids
     """
     
+    for symbol in ids_list:
+        # assert symbol does not start with "___"
+        assert symbol[:3] != "___"
+        kinetics = kinetics.replace("___" + symbol, symbol)
+    return kinetics

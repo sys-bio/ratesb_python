@@ -193,6 +193,7 @@ python -m unittest
 * Separated model reading from analysis
 * Tested on 1054 biomodels and fixed bugs
 * Added check_model method to allow user to use the package with one line
+* Solved when running sympy with sympy builtin symbols that raise error such as "S", a reaction like "S->P;k1*S" would work now
 
 ## Contributing
 
@@ -214,7 +215,7 @@ Contributions to `ratesb_python` are welcomed! Whether it's bug reports, feature
 
 ## Known Issues
 
-There are some sympy builtin symbols that will raise error such as "S", so a reaction like "S->P; k1*S" would not work.
+N/A
 
 ## Contact
 

@@ -8,7 +8,7 @@ parent_dir = os.path.dirname(current_dir)
 common_dir = os.path.join(parent_dir, 'ratesb_python', 'common')
 sys.path.append(common_dir)
 
-from util import get_model_str, get_json_str, check_equal, check_symbols_derivative
+from util import get_model_str, get_json_str, check_equal, check_kinetics_derivative, add_underscore_to_ids, remove_underscore_from_ids
 
 class TestUtil(unittest.TestCase):
     def test_get_model_str(self):
@@ -68,25 +68,40 @@ class TestUtil(unittest.TestCase):
         self.assertFalse(check_equal(expr5, expr7))
         self.assertFalse(check_equal(expr6, expr7))
     
-    def test_check_symbols_derivative(self):
-        x, y, z = sp.symbols('x y z')
-        expr1 = x + y + z
-        expr2 = x + z - 2 * y
-        expr3 = 1 / x
-        expr4 = x * y * z
-        expr5 = x * y / (1 + y)
+    def test_check_kinetics_derivative(self):
+        expr1 = "x + y + z"
+        expr2 = "x + z - 2 * y"
+        expr3 = "1 / x"
+        expr4 = "x * y * z"
+        expr5 = "x * y / (1 + y)"
         symbols = ["x", "y", "z"]
         
-        self.assertTrue(check_symbols_derivative(expr1, symbols))
-        self.assertFalse(check_symbols_derivative(expr1, symbols, False))
-        self.assertFalse(check_symbols_derivative(expr2, symbols))
-        self.assertFalse(check_symbols_derivative(expr2, symbols, False))
-        self.assertTrue(check_symbols_derivative(expr3, ["x"], False))
-        self.assertFalse(check_symbols_derivative(expr3, ["x"]))
-        self.assertTrue(check_symbols_derivative(expr4, symbols))
-        self.assertFalse(check_symbols_derivative(expr4, symbols, False))
-        self.assertTrue(check_symbols_derivative(expr5, ["x", "y"]))
-        self.assertFalse(check_symbols_derivative(expr5, ["x", "y"], False))
+        self.assertTrue(check_kinetics_derivative(expr1, symbols, symbols))
+        self.assertFalse(check_kinetics_derivative(expr1, symbols, symbols, False))
+        self.assertFalse(check_kinetics_derivative(expr2, symbols, symbols))
+        self.assertFalse(check_kinetics_derivative(expr2, symbols, symbols, False))
+        self.assertTrue(check_kinetics_derivative(expr3, symbols, ["x"], False))
+        self.assertFalse(check_kinetics_derivative(expr3, symbols, ["x"]))
+        self.assertTrue(check_kinetics_derivative(expr4, symbols, symbols))
+        self.assertFalse(check_kinetics_derivative(expr4, symbols, symbols, False))
+        self.assertTrue(check_kinetics_derivative(expr5, symbols, ["x", "y"]))
+        self.assertFalse(check_kinetics_derivative(expr5, symbols, ["x", "y"], False))
+    
+    def test_add_underscore_to_ids(self):
+        ids_list = ["x", "y", "z"]
+        kinetics = "x + y + z"
+        ids_to_add = []
+        kinetics = add_underscore_to_ids(ids_list, kinetics, ids_to_add)
+        self.assertEqual(kinetics, "___x + ___y + ___z")
+        self.assertEqual(ids_to_add, ["___x", "___y", "___z"])
+        self.assertEqual(ids_list, ["x", "y", "z"])
+    
+    def test_remove_underscore_from_ids(self):
+        ids_list = ["x", "y", "z"]
+        kinetics = "___x + ___y + ___z"
+        kinetics = remove_underscore_from_ids(ids_list, kinetics)
+        self.assertEqual(kinetics, "x + y + z")
+        self.assertEqual(ids_list, ["x", "y", "z"])
 
 if __name__ == "__main__":
     unittest.main()
