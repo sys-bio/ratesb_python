@@ -1,6 +1,6 @@
 [project]
 name = "ratesb_python"
-version = "0.2.4"
+version = "0.2.5"
 description = "rate law analysis for systems biology"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -16,3 +16,6 @@ dependencies = [
     "sympy",
     "python-libsbml"
 ]
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
