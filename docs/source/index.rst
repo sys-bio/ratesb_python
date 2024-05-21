@@ -10,10 +10,20 @@ Welcome to ratesb_python's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   modules
-   ratesb_python
-   ratesb_python.common
-   tests
+   quickstart
+   installation
+   usage
+   errors_and_warnings
+   classifications
+   custom_classifications
+   testing
+   release_notes
+   contributing
+   license
+   future_works
+   known_issues
+   contact
+   references
 
 Indices and tables
 ==================
