@@ -5,6 +5,9 @@
 
 Welcome to ratesb_python's documentation!
 =========================================
+Analyze biochemical reaction rates using Python.
+
+Contents:
 
 .. toctree::
    :maxdepth: 2
@@ -12,18 +15,13 @@ Welcome to ratesb_python's documentation!
 
    quickstart
    installation
-   usage
-   errors_and_warnings
+   check_reference
    classifications
    custom_classifications
-   testing
-   release_notes
-   contributing
-   license
-   future_works
-   known_issues
-   contact
-   references
+   API
+   Tellurium Documents <https://tellurium.readthedocs.io/en/latest/>
+   SimpleSBML Documents <https://simplesbml.readthedocs.io/en/latest/>
+   appendix
 
 Indices and tables
 ==================
