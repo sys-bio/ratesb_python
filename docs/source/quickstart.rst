@@ -4,18 +4,19 @@ Quick Start Guide
 This guide provides a quick introduction to using `ratesb_python`.
 
 Simple Example
------------
+--------------
 
 This shows how to check a simple model for rate law correctness. `ratesb_python` uses either SBML or a human-readable representation of SBML models called Antimony. The Antimony code for this example contains a single reaction with associated kinetics. After creating the Antimony string, use the
 
 .. code-block:: python
 
    from ratesb_python import check_model
-   print(check_model("S->P;a*S; a = 0.1; S = 10"))
+   print(check_model("S->P;k1*S; k1 = 0.1; S = 10"))
 
 Output:
 
 .. code-block:: text
+
    _J0:
      Warning 1004: Flux is not decreasing as product increases.
      Warning 1020: We recommend that these parameters start with 'k': a
@@ -63,6 +64,7 @@ This example shows how to use the custom rate law checker to check a model for r
 Here is the custom rate law file in JSON format:
 
 .. code-block:: json
+
     [
         {
             "name": "Your rate law check (Here is Uni-Directional Mass Action, which is included)",

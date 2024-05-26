@@ -58,7 +58,7 @@ Analyzer
 
       ::
 
-         from ratesb_python.analyzer import Analyzer
+         from ratesb_python import Analyzer
          analyzer = Analyzer("path/to/biomodel.xml", "path/to/rate_laws.json")
          analyzer.check_all()
          results = analyzer.results
