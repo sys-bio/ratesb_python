@@ -9,7 +9,7 @@ Analyzer
    :undoc-members:
    :show-inheritance:
 
-   .. method:: check_model(model_str: str, rate_law_classifications_path: str=None, abort_on_complicated_rate_laws: bool=True, excluded_codes: List[int]=[])
+   .. automethod:: check_model(model_str: str, rate_law_classifications_path: str=None, abort_on_complicated_rate_laws: bool=True, excluded_codes: List[int]=[])
 
       Checks the SBML model for rate law errors and warnings.
 
@@ -24,7 +24,7 @@ Analyzer
 
          The results of the checks as a result object, can be printed or converted to string.
 
-   .. method:: list_all_checks()
+   .. automethod:: list_all_checks()
 
       Returns a string representation of all the checks.
 
@@ -32,7 +32,7 @@ Analyzer
 
          A string listing all error and warning checks.
 
-   .. method:: list_check(code: int)
+   .. automethod:: list_check(code: int)
 
       Returns a string representation of the check corresponding to the provided code.
 
@@ -44,7 +44,7 @@ Analyzer
 
          A string describing the check corresponding to the provided code.
 
-   .. method:: __init__(model_str: str, rate_law_classifications_path: str=None, abort_on_complicated_rate_laws: bool=True)
+   .. automethod:: __init__(model_str: str, rate_law_classifications_path: str=None, abort_on_complicated_rate_laws: bool=True)
 
       Initializes the Analyzer class.
 
@@ -65,7 +65,7 @@ Analyzer
          print(str(results))
          str(results)
 
-   .. method:: check_except(excluded_codes: Optional[List[int]]=[])
+   .. automethod:: check_except(excluded_codes: Optional[List[int]]=[])
 
       Performs all checks except the ones corresponding to the provided list of error or warning codes.
 
@@ -77,7 +77,7 @@ Analyzer
 
          The results of the check(s) to self.results.
 
-   .. method:: check_all()
+   .. automethod:: check_all()
 
       Performs all checks.
 
@@ -85,7 +85,7 @@ Analyzer
 
          The results of the check_all to self.results.
 
-   .. method:: checks(codes: List[int])
+   .. automethod:: checks(codes: List[int])
 
       Performs multiple checks based on the provided list of error or warning codes. If no codes are provided, all checks are performed.
 
@@ -105,11 +105,11 @@ Results
    :undoc-members:
    :show-inheritance:
 
-   .. method:: __init__()
+   .. automethod:: __init__()
 
       Initializes the Results class.
 
-   .. method:: add_message(reaction_name: str, code: int, message: str, is_warning=True)
+   .. automethod:: add_message(reaction_name: str, code: int, message: str, is_warning=True)
 
       Adds a new result to the results list.
 
@@ -120,11 +120,11 @@ Results
          - **message** (*str*): The message to be added.
          - **is_warning** (*bool*): If the message is a warning message.
 
-   .. method:: clear_results()
+   .. automethod:: clear_results()
 
       Clears all results from the results list.
 
-   .. method:: get_all_warnings()
+   .. automethod:: get_all_warnings()
 
       Returns all the warnings as a list of strings.
 
@@ -132,7 +132,7 @@ Results
 
          A list of warnings.
 
-   .. method:: get_all_errors()
+   .. automethod:: get_all_errors()
 
       Returns all the errors.
 
@@ -140,7 +140,7 @@ Results
 
          A list of errors.
 
-   .. method:: get_messages_by_reaction(reaction_name: str)
+   .. automethod:: get_messages_by_reaction(reaction_name: str)
 
       Returns all the messages for a specific reaction.
 
@@ -152,7 +152,7 @@ Results
 
          A list of messages for the specified reaction.
 
-   .. method:: remove_messages_by_reaction(reaction_name: str)
+   .. automethod:: remove_messages_by_reaction(reaction_name: str)
 
       Removes all the messages for a specific reaction.
 
@@ -160,7 +160,7 @@ Results
 
          - **reaction_name** (*str*): Name of the reaction.
 
-   .. method:: count_messages()
+   .. automethod:: count_messages()
 
       Returns the total number of errors and warnings.
 
@@ -168,7 +168,7 @@ Results
 
          The total count of errors and warnings.
 
-   .. method:: count_errors()
+   .. automethod:: count_errors()
 
       Returns the total number of errors.
 
@@ -176,18 +176,10 @@ Results
 
          The total count of errors.
 
-   .. method:: count_warnings()
+   .. automethod:: count_warnings()
 
       Returns the total number of warnings.
 
       **Returns:**
 
          The total count of warnings.
-
-   .. method:: __repr__()
-
-      Overrides the __repr__ method.
-
-      **Returns:**
-
-         str: A string representation of the results.
