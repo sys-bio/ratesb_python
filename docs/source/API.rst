@@ -4,7 +4,7 @@ API Documentation
 check_model Function
 --------------------
 
-.. automethod:: analyzer.check_model(model_str: str, rate_law_classifications_path: str=None, abort_on_complicated_rate_laws: bool=True, excluded_codes: List[int]=[])
+.. automethod:: common.analyzer.check_model(model_str: str, rate_law_classifications_path: str=None, abort_on_complicated_rate_laws: bool=True, excluded_codes: List[int]=[])
 
       Checks the SBML model for rate law errors and warnings.
 
@@ -22,8 +22,9 @@ check_model Function
 Analyzer
 --------
 
-.. autoclass:: analyzer.Analyzer
+.. autoclass:: common.analyzer.Analyzer
    :members:
+   :noindex:
    :undoc-members:
    :show-inheritance:
 
@@ -103,8 +104,9 @@ Analyzer
 Results
 -------
 
-.. autoclass:: results.Results
+.. autoclass:: common.results.Results
    :members:
+   :noindex:
    :undoc-members:
    :show-inheritance:
 
