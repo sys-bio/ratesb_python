@@ -1,15 +1,10 @@
 API Documentation
 =================
 
-Analyzer
---------
+check_model Function
+--------------------
 
-.. autoclass:: ratesb_python.analyzer.Analyzer
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-   .. automethod:: check_model(model_str: str, rate_law_classifications_path: str=None, abort_on_complicated_rate_laws: bool=True, excluded_codes: List[int]=[])
+.. automethod:: analyzer.check_model(model_str: str, rate_law_classifications_path: str=None, abort_on_complicated_rate_laws: bool=True, excluded_codes: List[int]=[])
 
       Checks the SBML model for rate law errors and warnings.
 
@@ -23,6 +18,14 @@ Analyzer
       **Returns:**
 
          The results of the checks as a result object, can be printed or converted to string.
+
+Analyzer
+--------
+
+.. autoclass:: analyzer.Analyzer
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
    .. automethod:: list_all_checks()
 
@@ -100,7 +103,7 @@ Analyzer
 Results
 -------
 
-.. autoclass:: ratesb_python.results.Results
+.. autoclass:: results.Results
    :members:
    :undoc-members:
    :show-inheritance:

@@ -141,6 +141,7 @@ SBOTerm Annotations
   - **Description**: The annotation for Michaelis-Menten kinetics with an explicit enzyme does not follow recommended SBO terms.
   - **Example**: Incorrect SBO term used for Michaelis-Menten kinetics with an explicit enzyme.
   - **Solution**: Use the recommended SBO term for Michaelis-Menten kinetics with an explicit enzyme.
+
 For more details about warnings and errors, please refer to the "View Error Codes" button in `RateSB`_.
 
 .. _RateSB: https://sys-bio.github.io/ratesb/
