@@ -120,7 +120,6 @@ class ReactionData:
     codes: List[int]
     non_constant_params: List[str]
 
-@staticmethod
 def check_model(model_str: str, rate_law_classifications_path: str=None, abort_on_complicated_rate_laws: bool=True, excluded_codes: List[int]=[]):
     """
     Checks the SBML model for rate law errors and warnings.
