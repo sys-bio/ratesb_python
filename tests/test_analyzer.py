@@ -8,6 +8,7 @@ common_dir = os.path.join(parent_dir, 'ratesb_python', 'common')
 sys.path.append(common_dir)
 
 from analyzer import Analyzer
+from analyzer import check_model
 
 
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -138,6 +139,20 @@ class TestAnalyzer(unittest.TestCase):
             Analyzer(TRUE_PATH_1, REVERSIBLE_MM_PATH)
         except ValueError:
             self.fail("Unexpected ValueError")
+    
+    def test_check_model(self):
+        results = check_model(PATH_1)
+        self.assertEqual(str(results), '_J0:\n  Warning 1006: Expecting these parameters to be constants: Km1\n')
+        
+    def test_list_all_checks(self):
+        checks = Analyzer.list_all_checks()
+        self.assertTrue(isinstance(checks, str))
+    
+    def test_list_check(self):
+        check_1 = Analyzer.list_check(1)
+        self.assertEqual(check_1, "1: No Rate Law entered - The rate law is missing for the given reaction. Please provide a rate law to proceed.")
+        check_1001 = Analyzer.list_check(1001)
+        self.assertEqual(check_1001, "1001: Rate law contains only number - The rate law consists of only a numeric value. This is usually not a valid rate law for a reaction.")
     
     def test_check_0001(self):
         true_case_analyzer = Analyzer(TRUE_PATH_2)

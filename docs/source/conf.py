@@ -1,5 +1,6 @@
 import os
 import sys
+import sphinx_rtd_theme
 sys.path.insert(0, os.path.abspath('../../ratesb_python'))
 
 
@@ -37,8 +38,14 @@ release = '0.2.6'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode',
     'sphinx.ext.napoleon'
 ]
+
+html_theme = "sphinx_rtd_theme"
+
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 napoleon_google_docstring = True
 napoleon_numpy_docstring = True

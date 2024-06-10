@@ -40,10 +40,6 @@ def get_json_str(json_reference):
     else:
         raise ValueError("Invalid rate law file path.")
     return json_str
-
-def checkSBMLDocument(document): 
-    if (document.getNumErrors() > 0):
-        print("SBML Document Error")
     
 def check_equal(expr1, expr2, n=4, sample_min=1, sample_max=10):
     """check if two sympy expressions are equal by plugging random numbers

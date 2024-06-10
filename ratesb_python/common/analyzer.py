@@ -144,6 +144,10 @@ class Analyzer:
     some rules. It uses sympy for processing mathematical symbol expressions, libsbmlpython 
     for processing SBML models, and SBMLKinetics for analyzing SBML models and classifying 
     rate laws. The class can return errors and warnings based on the specified checks.
+    
+    Attributes:
+        results (Results): An instance of the Results class used to store and retrieve 
+        analysis results. For more details, refer to the documentation of the Results class.
     """
     
     @staticmethod
