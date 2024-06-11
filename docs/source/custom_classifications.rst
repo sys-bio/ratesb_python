@@ -1,5 +1,5 @@
-Using Custom Rate Law Classifications
-=====================================
+Custom Rate Law Classifications
+===============================
 
 `ratesb_python` allows the use of custom rate law classifications. To utilize this, you must create a JSON file defining your rate laws. Each rate law object in the JSON file should include:
 

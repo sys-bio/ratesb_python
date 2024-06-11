@@ -7,8 +7,6 @@ Welcome to ratesb_python's documentation!
 =========================================
 Analyze biochemical reaction rates using Python.
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
