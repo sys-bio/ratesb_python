@@ -2,6 +2,10 @@
 
 `ratesb_python` is a Python package designed for analyzing rate laws in SBML (Systems Biology Markup Language) and Antimony models, which are commonly used in systems biology for representing biological networks. This package offers a user-friendly API to help ensure that your models are robust and accurate by providing detailed warnings and errors related to rate laws.
 
+## ReadTheDocs
+
+For detailed documentation, please visit [ReadTheDocs](https://longxf-ratesb-python.readthedocs-hosted.com/en/latest/).
+
 ## Installation
 
 To install `ratesb_python`, execute the following command in your terminal:
@@ -12,8 +16,15 @@ pip install ratesb_python
 
 ## Usage
 
-Below is an example demonstrating how to use the ratesb_python package with file input:
+Below are examples demonstrating how to use the ratesb_python package with file input:
 
+Simple example:
+```python
+from ratesn_python import check_model
+print(check_model("S->P;k1*S"))
+```
+
+Complex example:
 ```python
 from ratesb_python import Analyzer
 
@@ -194,6 +205,11 @@ python -m unittest
 * Tested on 1054 biomodels and fixed bugs
 * Added check_model method to allow user to use the package with one line
 * Solved when running sympy with sympy builtin symbols that raise error such as "S", a reaction like "S->P;k1*S" would work now
+
+### 0.2.6
+* Created ReadTheDocs
+* Bug Fixes
+* Improved test coverage to 99%
 
 ## Contributing
 
