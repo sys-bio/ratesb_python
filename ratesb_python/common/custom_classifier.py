@@ -113,7 +113,7 @@ class _CustomClassifier:
             if warnings:
                 self.warning_message = 'Some items in your JSON file were invalid and have been removed.\nDetails:\n'
                 self.warning_message += '\n'.join(warnings)
-                    
+
     def permute(self, arr):
         """Generates all permutations of a list.
 

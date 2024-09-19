@@ -1,8 +1,8 @@
 API Documentation
 =================
 
-common.analyzer Module
-----------------------
+Analyzer
+--------
 
 .. automodule:: common.analyzer
    :members:

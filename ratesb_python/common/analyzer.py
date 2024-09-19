@@ -144,9 +144,8 @@ class Analyzer:
     for processing SBML models, and SBMLKinetics for analyzing SBML models and classifying 
     rate laws. The class can return errors and warnings based on the specified checks.
     
-    Attributes:
-        results (Results): An instance of the Results class used to store and retrieve 
-        analysis results. For more details, refer to the documentation of the Results class.
+    :param results: An instance of the Results class used to store and retrieve analysis results.\
+    :type results: Results
     """
     
     @staticmethod
@@ -168,8 +167,10 @@ class Analyzer:
         """
         Returns a string representation of the check corresponding to the provided code.
 
-        Args:
-            code (int): The code of the check.
+        :param code: The code of the check.
+        :type code: int
+        :return: A string representation of the check.
+        :rtype: str
         """
         ret = str(code) + ": "
         if code not in ALL_CHECKS:
