@@ -1,6 +1,6 @@
 # Summary
 
-`ratesb_python` is a Python package that analyzes mechanistic models of biological systems that consist of networks of chemical reactions like $2 H_2 + O_2 \rightarrow 2 H_2O$. The package focuses on rate laws of reactions, algebraic expressiona that specify the rate at which reactants (e.g., $H_2, O_2$) are converted into products (e.g., $O_2$). ``ratesb_python`` analyzes rate laws to detect errors and warnings that affect the robustness and accuracy of models that use the SBML (Systems Biology Markup Language) community standard for model model descriptions [@Hucka2003].
+`ratesb_python` is a Python package that analyzes mechanistic models of biological systems that consist of networks of chemical reactions like $2 H_2 + O_2 \rightarrow 2 H_2O$ [with rate laws such as $k [h_2]^2 [O_2]$ that describe the rate at which the reaction proceeds]. The package focuses on rate laws of reactions, algebraic expressiona that specify the rate at which reactants (e.g., $H_2, O_2$) are converted into products (e.g., $O_2$). ``ratesb_python`` analyzes rate laws to detect errors and warnings that affect the robustness and accuracy of models that use the SBML (Systems Biology Markup Language) community standard for model model descriptions [@Hucka2003].
 
 # Statement of Need
 
