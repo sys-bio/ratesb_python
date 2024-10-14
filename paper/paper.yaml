@@ -1,0 +1,25 @@
+title: 'ratesb_python: A Python Package for Analyzing Rate Laws in Biological Models'
+tags:
+  - Python
+  - SBML
+  - Systems Biology
+  - Kinetics
+  - Rate Laws
+authors:
+  - name: "Longxuan Fan"
+    orcid: "0009-0006-6523-8302"
+    affiliation: 1
+  - name: "Joseph L. Hellerstein"
+    affiliation: 2
+  - name: "Herbert M. Sauro"
+    affiliation: 3
+affiliations:
+  - name: "Viterbi School of Engineering, University of Southern California"
+    index: 1
+  - name: "eScience Institute, University of Washington"
+    index: 2
+  - name: "Department of Bioengineering, University of Washington"
+    index: 3
+date: 2024-10-14
+bibliography: paper.bib
+repository: "https://github.com/sys-bio/ratesb_python"

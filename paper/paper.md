@@ -1,3 +1,30 @@
+---
+title: 'ratesb_python: A Python Package for Analyzing Rate Laws in Biological Models'
+tags:
+  - Python
+  - SBML
+  - Systems Biology
+  - Kinetics
+  - Rate Laws
+authors:
+  - name: Longxuan Fan
+    orcid: 0009-0006-6523-8302
+    affiliation: 1
+  - name: Joseph L. Hellerstein
+    affiliation: 2
+  - name: Herbert M. Sauro
+    affiliation: 3
+affiliations:
+  - name: Viterbi School of Engineering, University of Southern California
+    index: 1
+  - name: eScience Institute, University of Washington
+    index: 2
+  - name: Department of Bioengineering, University of Washington
+    index: 3
+date: 14 October 2024
+bibliography: paper.bib
+---
+
 # Summary
 
 `ratesb_python` is a Python package that analyzes mechanistic models of biological systems that consist of networks of chemical reactions like $2 H_2 + O_2 \rightarrow 2 H_2O$ [with rate laws such as $k [h_2]^2 [O_2]$ that describe the rate at which the reaction proceeds]. The package focuses on rate laws of reactions, algebraic expressiona that specify the rate at which reactants (e.g., $H_2, O_2$) are converted into products (e.g., $O_2$). ``ratesb_python`` analyzes rate laws to detect errors and warnings that affect the robustness and accuracy of models that use the SBML (Systems Biology Markup Language) community standard for model model descriptions [@Hucka2003].
@@ -53,3 +80,7 @@ Error and warning messages generated during the analysis are systematically mana
 # Future Work
 
 Future developments for `ratesb_python` include enriching the library of checks and optimizing the performance of classification algorithms. The goal is to expand the tool's capabilities, making it a more comprehensive resource for developers and researchers alike, and to introduce customization options for error and warning management, further enhancing its utility in systems biology.
+
+---
+bibliography: paper.bib
+---
