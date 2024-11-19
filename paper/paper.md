@@ -15,11 +15,11 @@ authors:
   - name: Herbert M. Sauro
     affiliation: 3
 affiliations:
-  - name: Viterbi School of Engineering, University of Southern California
+  - name: Viterbi School of Engineering, University of Southern California, 3650 McClintock Avenue, Los Angeles, CA 90089, United States of America
     index: 1
-  - name: eScience Institute, University of Washington
+  - name: eScience Institute, University of Washington, 3910 15th Ave NE, Seattle, WA 98195, United States of America
     index: 2
-  - name: Department of Bioengineering, University of Washington
+  - name: Department of Bioengineering, University of Washington, 3720 15th Ave NE, Seattle, WA 98195, United States of America
     index: 3
 date: 14 October 2024
 bibliography: paper.bib
@@ -27,7 +27,7 @@ bibliography: paper.bib
 
 # Summary
 
-`ratesb_python` is a Python package that analyzes mechanistic models of biological systems that consist of networks of chemical reactions like $2 H_2 + O_2 \rightarrow 2 H_2O$ [with rate laws such as $k [h_2]^2 [O_2]$ that describe the rate at which the reaction proceeds]. The package focuses on rate laws of reactions, algebraic expressiona that specify the rate at which reactants (e.g., $H_2, O_2$) are converted into products (e.g., $O_2$). ``ratesb_python`` analyzes rate laws to detect errors and warnings that affect the robustness and accuracy of models that use the SBML (Systems Biology Markup Language) community standard for model model descriptions [@Hucka2003].
+`ratesb_python` is a Python package that analyzes mechanistic models of biological systems that consist of networks of chemical reactions like $2 H_2 + O_2 \rightarrow 2 H_2O$ [with rate laws such as $k [h_2]^2 [O_2]$ that describe the rate at which the reaction proceeds]. The package focuses on rate laws of reactions, algebraic expressions that specify the rate at which reactants (e.g., $H_2, O_2$) are converted into products (e.g., $O_2$). ``ratesb_python`` analyzes rate laws to detect errors and warnings that affect the robustness and accuracy of models that use the SBML (Systems Biology Markup Language) community standard for model model descriptions [@Hucka2003].
 
 # Statement of Need
 
@@ -37,7 +37,7 @@ The  `ratesb_python` package evaluates rate laws against a library of predefined
 
 # Software Description
 
-`ratesb_python` analyzes rate laws to detect errors and warns about violations of best practices. Input to ``ratesb_python`` can be a file path to a model in the SBML or Antimony [@Smith2009] formats, or a string in the Antimony format. The output is text and/or python objects. Control over inputs and outputs is managed by ``analyzer.py``.
+`ratesb_python` analyzes rate laws to detect errors and warns about violations of best practices. Input to ``ratesb_python`` can be a file path to a model in the SBML or Antimony [@Smith2009] formats, or a string in the Antimony format. The output is text and/or Python objects. Control over inputs and outputs is managed by ``analyzer.py``.
 
 Central to ``ratesb_python`` is the ability to classify rate laws according to widely used types such as: mass action, Michaelis-Menten, and zeroth order kinetics. ``ratesb_python`` relies heavily on approaches employed in SBMLKinetics [@Xu2023], which uses the ``sympy`` package to do symbolic analysis of rate laws. `ratesb_python` refines and extends these approaches to increase the accuracy of classification and to improve performance.
 
@@ -75,7 +75,7 @@ Error and warning messages generated during the analysis are systematically mana
 
 # Integration with Other Tools and API Capabilities
 
-`ratesb_python` is designed as a flexible, modular API and standalone tool, enabling integration with various systems biology tools to facilitate rate law analysis in biological modeling projects. Its development in ``python`` ensures compatibility with prevalent scientific computing tools, allowing it to be added to existing systems or tailored for specific applications. It works well with tools that are widely used in the SBML community, such as ``libantimony`` and ``libsbml``. Additionally, `ratesb_python` serves an educational purpose, offering a practical tool for computational biology courses where students can learn about rate law analysis by interacting with and modifying the API.
+`ratesb_python` is designed as a flexible, modular API and standalone tool, enabling integration with various systems biology tools to facilitate rate law analysis in biological modeling projects. Its development in ``Python`` ensures compatibility with prevalent scientific computing tools, allowing it to be added to existing systems or tailored for specific applications. It works well with tools that are widely used in the SBML community, such as ``libantimony`` and ``libsbml``. Additionally, `ratesb_python` serves an educational purpose, offering a practical tool for computational biology courses where students can learn about rate law analysis by interacting with and modifying the API.
 
 # Future Work
 
