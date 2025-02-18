@@ -1,0 +1,8 @@
+[
+    {
+        "name": "Your rate law check (Here is Uni-Directional Mass Action, which is included)",
+        "expression": "compartment * parameter * reactant1",
+        "optional_symbols": ["compartment", "parameter"],
+        "power_limited_species": []
+    }
+]

@@ -38,22 +38,17 @@ Complex example:
 ```python
 from ratesb_python import Analyzer
 
-# Assuming `model` is your SBML or Antimony model
-analyzer = Analyzer("path/to/model.xml", "path/to/custom_classifications.json")
-# or:
-analyzer2 = Analyzer("S1->P1; k1 * S1") # custom classification file is optional
+analyzer = Analyzer("Reaction1: S1->P1; k1 * S1")
 
 # Analyze the model for rate law correctness
 analyzer.check_all()
-results = analyzer.results
 
 # Display all errors and warnings
-print(results)
+print(analyzer.results)
 
 # Check selected errors and warnings
 analyzer.checks([1, 2, 1001, 1002])
-
-# No need to set results = analyzer.results again as results updates automatically
+results = analyzer.results
 print(results)
 
 # Display only warnings
@@ -196,7 +191,7 @@ python -m unittest
 * Added check_model method to allow user to use the package with one line
 * Solved when running sympy with sympy builtin symbols that raise error such as "S", a reaction like "S->P;k1*S" would work now
 
-For older versions and a full changelog, please check the repository's [Changelog.md](https://github.com/sys-bio/ratesb_python/blob/main/Changelog.md).
+For older versions and a full changelog, please check the repository's [CHANGELOG.md](https://github.com/sys-bio/ratesb_python/blob/main/CHANGELOG.md).
 
 ## Contributing
 
