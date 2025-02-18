@@ -10,4 +10,4 @@ Custom Rate Law Classifications
 
 Here's an example of how to define your rate laws in the JSON file:
 
-.. literalinclude:: /examples/custom_classifications.json
+.. literalinclude:: ../../examples/custom_classifications.json

@@ -4,13 +4,15 @@ API Documentation
 Analyzer
 --------
 
-.. automodule:: common.analyzer
+.. automodule:: ratesb_python.common.analyzer
    :members:
-   :noindex:
+   :undoc-members:
+   :show-inheritance:
 
 Results
 -------
 
-.. autoclass:: common.results.Results
+.. autoclass:: ratesb_python.common.results.Results
    :members:
-   :noindex:
+   :undoc-members:
+   :show-inheritance:
