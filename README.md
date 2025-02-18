@@ -20,9 +20,19 @@ Below are examples demonstrating how to use the ratesb_python package with file 
 
 Simple example:
 ```python
-from ratesn_python import check_model
+from ratesb_python import check_model
 print(check_model("S->P;k1*S"))
 ```
+
+Expected output:
+```bash
+_J0:
+  Warning 1004: Flux is not decreasing as product increases.
+```
+
+Explanation:
+- `_J0` represents an internal identifier for the reaction flux. It is automatically assigned to the reaction for tracking purposes.
+- The warning (1004) indicates that as the product (P) increases, the flux does not decrease as expected, suggesting a potential issue with the reversible reaction kinetics.
 
 Complex example:
 ```python
@@ -172,33 +182,13 @@ python -m unittest
 
 ## Release Notes
 
-### 0.1.0
-* initial release, used SBMLKinetics for rate law classifications
+### 0.2.7
+* Doc improvements
 
-### 0.2.0
-* removed numpy dependency
-* updated rate law classifications scheme, no longer using SBMLKinetics for rate law classifications
-* Restructured code for web integration
-
-### 0.2.1
-* removed Analyzer.check()
-* added get_all_checks() to get the info about all checks
-* improved testing to full coverage except for trivial ones
-* improved exception messages
-* allowed string of Antimony or SBML model as input
-* simplified the import statement
-* revised existing and added new method and class comments
-
-### 0.2.2
-* bug fixes
-* created github workflow for CI
-
-### 0.2.3
-* include .json files
-* fixed path finding issue
-
-### 0.2.4
-* updated instructions in readme
+### 0.2.6
+* Created ReadTheDocs
+* Bug Fixes
+* Improved test coverage to 99%
 
 ### 0.2.5
 * Separated model reading from analysis
@@ -206,10 +196,7 @@ python -m unittest
 * Added check_model method to allow user to use the package with one line
 * Solved when running sympy with sympy builtin symbols that raise error such as "S", a reaction like "S->P;k1*S" would work now
 
-### 0.2.6
-* Created ReadTheDocs
-* Bug Fixes
-* Improved test coverage to 99%
+For older versions and a full changelog, please check the repository's [Changelog.md](https://github.com/sys-bio/ratesb_python/blob/main/Changelog.md).
 
 ## Contributing
 
