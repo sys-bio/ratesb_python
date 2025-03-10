@@ -2,13 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.2.7] - Latest
-- Documentation improvements
-
 ## [0.2.6] - Previous
 - Created ReadTheDocs
 - Bug fixes
 - Improved test coverage to 99%
+- Supressed python 3.12 string warning
 
 ## [0.2.5]
 - Separated model reading from analysis

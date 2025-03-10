@@ -8,10 +8,22 @@ sys.path.append(current_dir)
 sys.path.append(parent_dir)
 
 from custom_classifier import _CustomClassifier
-# from SBMLKinetics.common.simple_sbml import SimpleSBML
-# from SBMLKinetics.common.reaction import Reaction
+import warnings
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore", 
+        category=SyntaxWarning,
+        module="SBMLKinetics.kinetics_output"
+    )
+    from SBMLKinetics.common.simple_sbml import SimpleSBML
+    from SBMLKinetics.common.reaction import Reaction
 from typing import List
-from SBMLKinetics.common.simple_sbml import SimpleSBML
+import warnings
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore", 
+        category=SyntaxWarning,
+        module="SBMLKinetics.kinetics_output"
+    )
+    from SBMLKinetics import kinetics_output
 from common import util
 from results import Results
 

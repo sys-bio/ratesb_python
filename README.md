@@ -177,13 +177,11 @@ python -m unittest
 
 ## Release Notes
 
-### 0.2.7
-* Doc improvements
-
 ### 0.2.6
 * Created ReadTheDocs
 * Bug Fixes
 * Improved test coverage to 99%
+* Supressed python 3.12 string warning
 
 ### 0.2.5
 * Separated model reading from analysis
