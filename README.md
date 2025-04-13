@@ -177,6 +177,9 @@ python -m unittest
 
 ## Release Notes
 
+### 0.2.7
+* Supported Local Parameters in SBML
+
 ### 0.2.6
 * Created ReadTheDocs
 * Bug Fixes

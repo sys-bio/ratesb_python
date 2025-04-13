@@ -2,7 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.2.6] - Previous
+## [0.2.7] - Previous
+- Supported Local Parameters in SBML
+
+## [0.2.6]
 - Created ReadTheDocs
 - Bug fixes
 - Improved test coverage to 99%

@@ -217,12 +217,12 @@ class AnalyzerData:
 
             reaction_id = reaction.getId()
             sorted_species = self._get_sorted_species(reaction.reaction)
-            species_list, parameter_list, compartment_list, kinetics, kinetics_sim = self._preprocess_reactions(
+            species_list, parameter_list, local_parameter_list, compartment_list, kinetics, kinetics_sim = self._preprocess_reactions(
                 reaction)
             reactant_list, product_list = self._extract_kinetics_details(
                 reaction)
             species_in_kinetic_law, parameters_in_kinetic_law_only, compartment_in_kinetic_law, others_in_kinetic_law = self._identify_parameters_in_kinetics(
-                ids_list, species_list, parameter_list, compartment_list)
+                ids_list, species_list, parameter_list, local_parameter_list, compartment_list)
             boundary_species = self._get_boundary_species(
                 reactant_list, product_list)
             non_constant_params = self._get_non_constant_params(parameters_in_kinetic_law_only)
@@ -270,6 +270,8 @@ class AnalyzerData:
             i).getId() for i in range(species_num)]
         parameter_list = [self.model.getParameter(
             i).getId() for i in range(parameter_num)]
+        local_parameter_list= (
+            [reaction.kinetic_law.libsbml_kinetics.getLocalParameter(i).getId() for i in range(reaction.kinetic_law.libsbml_kinetics.getNumLocalParameters())])
         compartment_list = [self.model.getCompartment(
             i).getId() for i in range(compartment_num)]
 
@@ -280,14 +282,14 @@ class AnalyzerData:
         except:
             kinetics_sim = kinetics
 
-        return species_list, parameter_list, compartment_list, kinetics, kinetics_sim
+        return species_list, parameter_list, local_parameter_list, compartment_list, kinetics, kinetics_sim
 
     def _extract_kinetics_details(self, reaction):
         reactant_list = [r.getSpecies() for r in reaction.reactants]
         product_list = [p.getSpecies() for p in reaction.products]
         return reactant_list, product_list
 
-    def _identify_parameters_in_kinetics(self, ids_list, species_list, parameter_list, compartment_list):
+    def _identify_parameters_in_kinetics(self, ids_list, species_list, parameter_list, local_parameter_list, compartment_list):
         species_in_kinetic_law = []
         parameters_in_kinetic_law_only = []
         compartment_in_kinetic_law = []
@@ -297,6 +299,8 @@ class AnalyzerData:
             if id in species_list:
                 species_in_kinetic_law.append(id)
             elif id in parameter_list:
+                parameters_in_kinetic_law_only.append(id)
+            elif id in local_parameter_list:
                 parameters_in_kinetic_law_only.append(id)
             elif id in compartment_list:
                 compartment_in_kinetic_law.append(id)
@@ -316,7 +320,10 @@ class AnalyzerData:
     def _get_non_constant_params(self, parameters_in_kinetic_law_only):
         non_constant_params = []
         for param in parameters_in_kinetic_law_only:
-            libsbml_param = self.model.getParameter(param)
-            if not libsbml_param.getConstant():
-                non_constant_params.append(param)
+            try:
+                libsbml_param = self.model.getParameter(param)
+                if libsbml_param and not libsbml_param.getConstant():
+                    non_constant_params.append(param)
+            except:
+                pass
         return non_constant_params

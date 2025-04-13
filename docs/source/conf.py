@@ -28,7 +28,7 @@ copyright = '2024, Longxuan Fan'
 author = 'Longxuan Fan'
 
 # The full version, including alpha/beta/rc tags
-release = '0.2.6'
+release = '0.2.7'
 
 
 # -- General configuration ---------------------------------------------------
