@@ -70,8 +70,8 @@ class _CustomClassifier:
                     continue
 
                 # Check the mathematical expression validity
-                replaced_expression = re.sub(r'(compartment|parameter|reactant1|reactant2|reactant3|product1|product2|product3|enzyme|\*\*|\^)', '1', item['expression'])
-                replaced_expression = replaced_expression.replace("**", "^")
+                replaced_expression = re.sub(r'(compartment|parameter|reactant1|reactant2|reactant3|product1|product2|product3|enzyme)', '1', item['expression'])
+                replaced_expression = replaced_expression.replace("^", "**")
                 try:
                     # We need a similar library as 'math' in JS for Python, let's use 'eval' here
                     eval(replaced_expression)
