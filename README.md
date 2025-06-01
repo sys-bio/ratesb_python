@@ -52,7 +52,7 @@ results = analyzer.results
 print(results)
 
 # Display only warnings
-warnings = results.get_warnings()
+warnings = results.get_all_warnings()
 for reaction, messages in warnings.items():
     print(reaction, messages)
 
