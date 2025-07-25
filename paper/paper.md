@@ -31,7 +31,7 @@ bibliography: paper.bib
 
 # Statement of Need
 
-Mechanistic models in systems biology are essential tools for simulating and understanding the intricacies of complex biological systems, and a wide variety of rate laws are used. One commonly used rate law is *mass action* in which the reaction rate is proportional to the product of the concentrations of the reactants. To illustrate, consider a reaction in which $m$ molecules of $A$ combine with $n$ molecules of $B$ to produce $r$ molecules of $C$, or $m A + n B \rightarrow r C$. The mass action rate law is $k\times[A]^m\times[B]^n$, where $[x]$ is the concentration of $x$ and $k$ is a constant.
+Mechanistic models in systems biology are essential tools for simulating and understanding the intricacies of complex biological systems, and a wide variety of rate laws are used. One commonly used rate law is *mass action* in which the reaction rate is proportional to the product of the concentrations of the reactants. To illustrate, consider a reaction in which $m$ molecules of $A$ combine with $n$ molecules of $B$ to produce $r$ molecules of $C$, or $m A + n B \rightarrow r C$. The mass action rate law is $k\times[A]^m\times[B]^n$, where $[x]$ is the concentration of $x$ and $k$ are constants.
 
 The  `ratesb_python` package evaluates rate laws against a library of predefined types to identify anomalies that may compromise the accuracy of mechanistic models. This process involves categorizing rate laws based on their mathematical characteristics and examining their performance within the context of the model. Such analysis enables `ratesb_python` to identify potential errors and warnings, including discrepancies in reactant usage or abnormal reaction fluxes. For example, if the rate law provided for the reaction $2 H_2 + O_2 \rightarrow 2 H_2O$ is $k_1 [H_2]^2 [O_2] [H_2O]^2$ (where $k_1$ is a constant), ``ratesb_python`` reports an error since there is no defined classification for the rate law since the products are included ($[H_2O]$).
 
@@ -39,7 +39,7 @@ Moreover, `ratesb_python` extends beyond symbolic comparisons employed by existi
 
 In addition to its extensibility, `ratesb_python` provides practical performance improvements. While symbolic tools like `SBMLKinetics` require nested loops over all parameter combinations (up to $O(p^pS(n))$ symbolic comparisons, where $S(n)$ is a single comparison cost and p is the number of parameters) and repeated use of sympy.simplify(), `ratesb_python` reduces this to a more controlled pipeline with factorial complexity in reactant/product permutations and exponential complexity only in the number of optional symbols. In theory, worst-case time complexity of ratesb_python is bounded by $O((num\_rtct!*num\_prod!)\times 2^kS(n))$ (where $k$ is the number of optional symbols). In practice, however, these bounds remain modest: most biological reactions involve no more than one or two reactants and products, and the number of optional symbols is limited to three (compartment, parameter, and enzyme), keeping the actual computational cost low even for complex rate laws.
 
-In simple scenearios-such as a Michaelis-Menten rate law $M\rightarrow; cell \times M \times V / (K + M)$ with one reactant and no products, both `ratesb_python` and symbolic methods exhibit similar performance. However, for more complex rate laws, such as a reversible Michaelis-Menten formulation. However, in more complex examples like a reversible michaelis menten rate law: $$S\rightarrow P; cell \times (V_{\mathit{max}} / K_{\mathit{m1}}) \times (S - P / K_{\mathit{eq}}) / (1 + S / K_{\mathit{m1}} + P / K_{\mathit{m2}})$$, the difference becomes substantial. A symbolic method would require on the order of $O(25S(n))$ comparisons due to nested parameter loop evaluations, and each comparison becomes costlier due to increased symbolic expression complexity. In contrast, `ratesb_python` evaluates this example with only $O((1!\times 1!)\times 2^1S(n))=O(2S(n))$ operations, illustrating its high scalability and efficiency in handling real-world, biologically meaningful models.
+In simple scenearios-such as a Michaelis-Menten rate law $cell \times M \times V / (K + M)$ (where $V$ and $K$ are constants and $M$ is the reactant) with one reactant and no products, both `ratesb_python` and symbolic methods exhibit similar performance. However, for more complex rate laws, such as a reversible Michaelis-Menten formulation. However, in more complex examples like a reversible michaelis menten rate law: $$cell \times (V_{\mathit{max}} / K_{\mathit{m1}}) \times (S - P / K_{\mathit{eq}}) / (1 + S / K_{\mathit{m1}} + P / K_{\mathit{m2}})$$ (constants: $V_{\mathit{max}}$, $K_{\mathit{m1}}$, $K_{\mathit{eq}}$, $K_{\mathit{m1}}$, $K_{\mathit{m2}}$; reactant: $S$; product: $P$; compartment: $cell$), the difference becomes substantial. A symbolic method would require on the order of $O(25S(n))$ comparisons due to nested parameter loop evaluations, and each comparison becomes costlier due to increased symbolic expression complexity. In contrast, `ratesb_python` evaluates this example with only $O((1!\times 1!)\times 2^1S(n))=O(2S(n))$ operations, illustrating its high scalability and efficiency in handling real-world, biologically meaningful models.
 
 # Software Description
 
@@ -81,6 +81,33 @@ Below is a summary of the error and warning codes along with their brief descrip
 | Error and warning messages to aid in rate law analysis.                              |
 +======================================================================================+
 
+# Experimental Comparison
+
+To substantiate our performance and correctness claims, we compared `ratesb_python` against `SBMLKinetics` on a curated benchmark of eight representative SBML models, covering common rate law types such as mass action, Michaelis-Menten, and reversible kinetics. Each model was analyzed using both tools, and we recorded the classification results and execution time. The results are summarized below:
+
++----------------------------+------------------+------------------+----------------+----------------+
+| Model                      | RatesB Time (s)  | SBMLK Time (s)   | RatesB Class   | SBMLK Class    |
++:==========================:+:================:+:================:+:==============:+:==============:+
+| bidirectional_bidr21.xml   | 0.08692          | 0.01483          | BIDR21         | BIDR           |
++---------------------------:+:-----------------+------------------+----------------+----------------+
+| bidirectional_bidr_a11.xml | 0.02487          | 0.01403          | BIDR11         | BIDR           |
++----------------------------+------------------+------------------+----------------+----------------+
+| mass_action_undr1.xml      | 0.00531          | 0.01044          | UNDR1          | UNDR           |
++----------------------------+------------------+------------------+----------------+----------------+
+| mass_action_undr2.xml      | 0.01189          | 0.01087          | UNDR2          | UNDR           |
++----------------------------+------------------+------------------+----------------+----------------+
+| michaelis_menten_mm.xml    | 0.14586          | 0.01429          | MM             | MM             |
++----------------------------+------------------+------------------+----------------+----------------+
+| michaelis_menten_mmcat.xml | 0.16496          | 0.06787          | MM             | MM             |
++----------------------------+------------------+------------------+----------------+----------------+
+| reversible_mm_rmm.xml      | 0.22132          | 1.23374          | RMM            | FR             |
++----------------------------+------------------+------------------+----------------+----------------+
+| reversible_mm_rmmcat.xml   | 0.28556          | 0.02395          | RMMcat         | FR             |
++============================+==================+==================+================+================+
+| Comparative classification and timing results for `ratesb_python` and SBMLKinetics.                |
++====================================================================================================+
+
+These results show that as model complexity increases, `SBMLKinetics` becomes less stable and slower, often defaulting to generic classifications like FR or failing to distinguish structurally distinct forms. In contrast, `ratesb_python` consistently produces accurate classifications across all examples, including complex reversible Michaelis-Menten kinetics. Moreover, `ratesb_python` maintains stable performance and reasonable runtime, even when symbolic approaches slow down drastically. Scripts to reproduce this benchmark, including model files, wrapper code, and output summaries, are publicly available at the [Github Repository](https://github.com/sys-bio/ratesb_python/tree/main/benchmark) to ensure transparency and replicability.
 
 # Integration with Other Tools and API Capabilities
 
