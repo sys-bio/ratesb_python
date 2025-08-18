@@ -88,23 +88,23 @@ To evaluate classification correctness and stability, we compared `ratesb_python
 +----------------------------+------------------+------------------+----------------+----------------+
 | Model                      | RatesB Time (s)  | SBMLK Time (s)   | RatesB Class   | SBMLK Class    |
 +:==========================:+:================:+:================:+:==============:+:==============:+
-| bidirectional_bidr21.xml   | 0.08692          | 0.01483          | **BIDR21**         | **BIDR**           |
+| bidirectional_bidr21.xml   | 0.08692          | 0.01483          | **BIDR21**     | **BIDR**       |
 +----------------------------+------------------+------------------+----------------+----------------+
-| bidirectional_bidr_a11.xml | 0.02487          | 0.01403          | **BIDR11**         | **BIDR**           |
+| bidirectional_bidr_a11.xml | 0.02487          | 0.01403          | **BIDR11**     | **BIDR**       |
 +----------------------------+------------------+------------------+----------------+----------------+
-| mass_action_undr1.xml      | 0.00531          | 0.01044          | **UNDR1**          | **UNDR**           |
+| mass_action_undr1.xml      | 0.00531          | 0.01044          | **UNDR1**      | **UNDR**       |
 +----------------------------+------------------+------------------+----------------+----------------+
-| mass_action_undr2.xml      | 0.01189          | 0.01087          | **UNDR2**          | **UNDR**           |
+| mass_action_undr2.xml      | 0.01189          | 0.01087          | **UNDR2**      | **UNDR**       |
 +----------------------------+------------------+------------------+----------------+----------------+
-| michaelis_menten_mm.xml    | 0.14586          | 0.01429          | **MM**             | **MM**             |
+| michaelis_menten_mm.xml    | 0.14586          | 0.01429          | **MM**         | **MM**         |
 +----------------------------+------------------+------------------+----------------+----------------+
-| michaelis_menten_mmcat.xml | 0.16496          | 0.06787          | **MM**             | **MM**             |
+| michaelis_menten_mmcat.xml | 0.16496          | 0.06787          | **MM**         | **MM**         |
 +----------------------------+------------------+------------------+----------------+----------------+
-| reversible_mm_rmm.xml      | 0.22132          | 1.23374          | **RMM**            | _FR_             |
+| reversible_mm_rmm.xml      | 0.22132          | 1.23374          | **RMM**        | _FR_           |
 +----------------------------+------------------+------------------+----------------+----------------+
-| reversible_mm_rmmcat.xml   | 0.28556          | 0.02395          | **RMMcat**         | _FR_             |
+| reversible_mm_rmmcat.xml   | 0.28556          | 0.02395          | **RMMcat**     | _FR_           |
 +============================+==================+==================+================+================+
-| Comparative classification and timing results for `ratesb_python` and `SBMLKinetics`.                |
+| Comparative classification and timing results for `ratesb_python` and `SBMLKinetics`.              |
 +====================================================================================================+
 
 Correct classifications are shown in bold, while incorrect or generic classifications are shown in italics.
