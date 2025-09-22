@@ -13,14 +13,12 @@ authors:
   - name: Joseph L. Hellerstein
     affiliation: 2
   - name: Herbert M. Sauro
-    affiliation: 3
+    affiliation: 1
 affiliations:
-  - name: Viterbi School of Engineering, University of Southern California, 3650 McClintock Avenue, Los Angeles, CA 90089, United States of America
+  - name: Department of Bioengineering, University of Washington, 3720 15th Ave NE, Seattle, WA 98195, United States of America
     index: 1
   - name: eScience Institute, University of Washington, 3910 15th Ave NE, Seattle, WA 98195, United States of America
     index: 2
-  - name: Department of Bioengineering, University of Washington, 3720 15th Ave NE, Seattle, WA 98195, United States of America
-    index: 3
 date: 14 October 2024
 bibliography: paper.bib
 ---
