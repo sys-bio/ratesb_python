@@ -34,5 +34,5 @@ benchmark/
 
 To run the benchmark on all test cases:
 ```bash
-python benchmark.py
+python benchmark_revised.py
 ```

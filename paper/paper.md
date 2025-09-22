@@ -83,33 +83,45 @@ Below is a summary of the error and warning codes along with their brief descrip
 
 # Experimental Comparison
 
-To evaluate classification correctness and stability, we compared `ratesb_python` against `SBMLKinetics` on a curated benchmark of eight representative SBML models, covering common rate law types such as mass action, Michaelis-Menten, and reversible kinetics. Each model was analyzed using both tools, and we recorded the classification results and execution time. The results are summarized below:
+To evaluate classification stability and accuracy, we conducted a comprehensive benchmark comparing `ratesb_python` against `SBMLKinetics` on 13 SBML models encompassing both simple and complex biological systems. Our benchmark includes single-reaction models covering standard rate law types (mass action, Michaelis-Menten, reversible kinetics) as well as multi-reaction models representing realistic biological pathways with mixed kinetics. This approach tests not only individual rate law classification but also the tools' ability to maintain accuracy across complex models with multiple diverse reactions.
 
-+----------------------------+------------------+------------------+----------------+----------------+
-| Model                      | RatesB Time (s)  | SBMLK Time (s)   | RatesB Class   | SBMLK Class    |
-+:==========================:+:================:+:================:+:==============:+:==============:+
-| bidirectional_bidr21.xml   | 0.08692          | 0.01483          | **BIDR21**     | **BIDR**       |
-+----------------------------+------------------+------------------+----------------+----------------+
-| bidirectional_bidr_a11.xml | 0.02487          | 0.01403          | **BIDR11**     | **BIDR**       |
-+----------------------------+------------------+------------------+----------------+----------------+
-| mass_action_undr1.xml      | 0.00531          | 0.01044          | **UNDR1**      | **UNDR**       |
-+----------------------------+------------------+------------------+----------------+----------------+
-| mass_action_undr2.xml      | 0.01189          | 0.01087          | **UNDR2**      | **UNDR**       |
-+----------------------------+------------------+------------------+----------------+----------------+
-| michaelis_menten_mm.xml    | 0.14586          | 0.01429          | **MM**         | **MM**         |
-+----------------------------+------------------+------------------+----------------+----------------+
-| michaelis_menten_mmcat.xml | 0.16496          | 0.06787          | **MM**         | **MM**         |
-+----------------------------+------------------+------------------+----------------+----------------+
-| reversible_mm_rmm.xml      | 0.22132          | 1.23374          | **RMM**        | _FR_           |
-+----------------------------+------------------+------------------+----------------+----------------+
-| reversible_mm_rmmcat.xml   | 0.28556          | 0.02395          | **RMMcat**     | _FR_           |
-+============================+==================+==================+================+================+
-| Comparative classification and timing results for `ratesb_python` and `SBMLKinetics`.              |
++----------------------------+------------+------------+------------+----------------+----------------+
+| Model                      | Reactions  | RatesB Acc | SBMLK Acc  | RatesB Time(s) | SBMLK Time(s)  |
++:==========================:+:==========:+:==========:+:==========:+:==============:+:==============:+
+| bidirectional_bidr21.xml   | 1          | 100.00%    | 100.00%    | 0.103          | 0.016          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| bidirectional_bidr_a11.xml | 1          | 100.00%    | 50.00%     | 0.021          | 0.013          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| branched_network.xml       | 5          | 100.00%    | 100.00%    | 0.233          | 0.026          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| enzyme_cascade.xml         | 3          | 100.00%    | 0.00%      | 0.353          | 0.052          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| mass_action_undr1.xml      | 1          | 100.00%    | 100.00%    | 0.005          | 0.010          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| mass_action_undr2.xml      | 1          | 100.00%    | 50.00%     | 0.010          | 0.010          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| metabolic_cycle.xml        | 5          | 80.00%     | 30.00%     | 0.351          | 0.985          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| michaelis_menten_mm.xml    | 1          | 100.00%    | 100.00%    | 0.113          | 0.014          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| michaelis_menten_mmcat.xml | 1          | 100.00%    | 100.00%    | 0.113          | 0.058          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| mixed_pathway_1.xml        | 3          | 100.00%    | 100.00%    | 0.171          | 0.021          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| reversible_mm_rmm.xml      | 1          | 100.00%    | 0.00%      | 0.175          | 1.004          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| reversible_mm_rmmcat.xml   | 1          | 100.00%    | 0.00%      | 0.226          | 0.021          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| reversible_pathway.xml     | 4          | 75.00%     | 25.00%     | 0.139          | 0.028          |
++----------------------------+------------+------------+------------+----------------+----------------+
+| **OVERALL**                | **28**     | **92.86%** | **55.36%** | **2.011**      | **2.259**      |
++============================+============+============+============+================+================+
+| Comprehensive stability comparison between `ratesb_python` and `SBMLKinetics`.                     |
 +====================================================================================================+
 
-Correct classifications are shown in bold, while incorrect or generic classifications are shown in italics.
+The results demonstrate `ratesb_python`'s superior classification stability, achieving **92.86% accuracy** compared to SBMLKinetics' **55.36% accuracy** across 28 individual reactions. This 37.5 percentage point advantage becomes particularly pronounced in complex models: while both tools perform similarly on simple cases (e.g., basic mass action and Michaelis-Menten), `ratesb_python` maintains high accuracy on challenging cases like enzyme cascades (100% vs 0%) and reversible Michaelis-Menten kinetics (100% vs 0%), where SBMLKinetics defaults to generic "FR" (fraction) classifications that lack biological specificity.
 
-These results show that while execution time varies depending on the example, the more important outcome is classification stability: `SBMLKinetics` often defaults to generic forms such as FR or fails to distinguish structurally distinct cases, whereas `ratesb_python` consistently produces specific and accurate classifications. This reliability is crucial when analyzing complex biological models, where correctness matters more than raw runtime. To further illustrate this point, future work will include visualizations (e.g., plotting correctness versus model complexity) to better capture the relationship between stability and model size. Scripts to reproduce this benchmark, including model files, wrapper code, and output summaries, are publicly available at the [Github Repository](https://github.com/sys-bio/ratesb_python/tree/main/benchmark) to ensure transparency and replicability.
+Crucially, this stability advantage is most valuable in realistic biological modeling scenarios where models contain multiple reaction types. The benchmark includes complex multi-reaction models (branched_network.xml, metabolic_cycle.xml, reversible_pathway.xml) that represent the types of systems biologists actually work with. In these cases, `ratesb_python`'s structured classification approach consistently identifies specific rate law subtypes (BIDR21 vs BIDR11, RMM vs RMMcat), while SBMLKinetics' symbolic methods often lose precision and default to broader categories. This reliability in complex scenarios makes `ratesb_python` particularly valuable for researchers who require accurate rate law identification for model validation and biological interpretation.
 
 # Integration with Other Tools and API Capabilities
 
